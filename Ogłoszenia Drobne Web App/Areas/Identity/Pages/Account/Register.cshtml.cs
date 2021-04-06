@@ -61,6 +61,17 @@ namespace Ogłoszenia_Drobne_Web_App.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+            [Required]
+            [MaxLength(20, ErrorMessage = "Imię może mieć maksymalnie 20 znaków")]
+            [Display(Name = "Imię")]
+            [RegularExpression(@"^([A-Za-zzżźćńółęąśŻŹĆĄŚĘŁÓŃ]+)$", ErrorMessage = "Niepoprawne imię")]
+            public string Name { get; set; }
+
+            [Required]
+            [MaxLength(50, ErrorMessage = "Nazwisko może mieć maksymalnie 50 znaków")]
+            [Display(Name = "Nazwisko")]
+            [RegularExpression(@"^([A-Za-zzżźćńółęąśŻŹĆĄŚĘŁÓŃ]+)$", ErrorMessage = "Niepoprawne nazwisko")]
+            public string Surname { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -75,7 +86,7 @@ namespace Ogłoszenia_Drobne_Web_App.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new AppUser { UserName = Input.Email, Email = Input.Email };
+                var user = new AppUser { UserName = Input.Email, Email = Input.Email,Name= Input.Name, Surname = Input.Surname };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

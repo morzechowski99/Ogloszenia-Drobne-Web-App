@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Ogłoszenia_Drobne_Web_App.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<AppUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -27,9 +27,10 @@ namespace Ogłoszenia_Drobne_Web_App.Data
             {
                 entity.HasKey(e => new { e.AtributeId, e.OfferId });
             });
+
         }
 
-        public virtual DbSet<AppUser> AppUsers { get; set; }
+
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Offer> Offers { get; set; }
         public virtual DbSet<Atribute> Atributes { get; set; }
