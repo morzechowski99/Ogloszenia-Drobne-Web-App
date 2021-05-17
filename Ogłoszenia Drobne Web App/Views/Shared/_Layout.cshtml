@@ -32,6 +32,58 @@
                     </ul>
                 </div>
             </div>
+            @if (Context.User.Identity.IsAuthenticated == true)
+            {
+                @if (Context.User.IsInRole("administrator"))
+                {
+                    <li class="nav-item nav-item dropdow mr-lg-3">
+                        <a class="nav-link dropdown-toggle text-light mt-1" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span>Panel administracyjny</span>
+                        </a>
+                        <div id="text" class="dropdown-menu bg-secondary text-white" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item nav-link" asp-area="" asp-controller="Category" asp-action="Index">Lista kategorii</a>
+                            <a class="dropdown-item nav-link" asp-area="" asp-controller="Category" asp-action="Create">Dodaj kategorię</a>
+                            <a class="dropdown-item nav-link" asp-area="" asp-controller="User" asp-action="List">Lista użytkowników</a>
+                            <a class="dropdown-item nav-link" asp-area="" asp-controller="Offers" asp-action="ReportedOffers">Zgłoszone oferty</a>
+                            <a class="dropdown-item nav-link" asp-area="" asp-controller="Admin" asp-action="ReportedUsers">Zgłoszeni użytkownicy</a>
+                            <a class="dropdown-item nav-link" asp-area="" asp-controller="Admin" asp-action="BlockedUsers">Zablokowani użytkownicy</a>
+                            <a class="dropdown-item nav-link" asp-area="" asp-controller="Admin" asp-action="ReportedMessages">Zgłoszone wiadomości</a>
+                        </div>
+                    </li>
+
+                }
+
+                <li class="nav-item nav-item dropdown mr-lg-3">
+                    <a class="nav-link dropdown-toggle text-light" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Zalogowany
+                    </a>
+                    <div id="text" class="dropdown-menu bg-secondary text-white" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item nav-link text-white" asp-area="" asp-controller="User" asp-action="MyDetails">Szczegóły konta</a>
+                        <a class="dropdown-item nav-link text-white" asp-area="" asp-controller="User" asp-action="MyEdit">Edytuj dane</a>
+                        <a class="dropdown-item nav-link text-white" asp-area="" asp-controller="Offers" asp-action="MyOffers">Moje oferty</a>
+                        <a class="dropdown-item nav-link text-white" asp-area="" asp-controller="Offers" asp-action="Create">Dodaj ogłoszenie</a>
+                        <div class="dropdown-divider"></div>
+                        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                            <button type="submit" class="nav-link btn btn-link text-white">Wyloguj</button>
+                        </form>
+                    </div>
+                </li>
+
+            }
+            else
+            {
+                <li class="nav-item">
+                    <button type="button" class="btn bg-transparent text-white">
+                        <a class="nav-link  text-white" asp-area="Identity" asp-page="/Account/Login"><span>Logowanie</span></a>
+                    </button>
+                </li>
+                
+                <li class="nav-item">
+                    <button type="button" class="btn bg-transparent text-white">
+                        <a class="nav-link  text-white" asp-area="Identity" asp-page="/Account/Register"><span>Rejestracja</span></a>
+                    </button>
+                </li>
+            }
         </nav>
     </header>
     <div class="container-fluid">
@@ -42,7 +94,7 @@
 
     <footer class="border-top footer gradient text-white">
         <div class="container">
-            &copy; 2021 - Ogłoszenia-Drobne-Neweglowski-Orzechowski MVC</a>
+            &copy; 2021 - Ogłoszenia-Drobne-Nieweglowski-Orzechowski MVC</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
