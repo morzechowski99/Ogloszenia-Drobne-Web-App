@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using Ogłoszenia_Drobne_Web_App.Models;
 
 namespace Ogłoszenia_Drobne_Web_App.Controllers
 {
+    [Authorize]
     public class OffersController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -55,14 +57,23 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
         }
 
         // POST: Offers/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,UserId,CategoryId,Title,Description,CreationDate,LastModificationDate,ExpirationDate,ViewCounter,Wage")] Offer offer)
+        public async Task<IActionResult> Create([Bind("Id,UserId,CategoryId,Title,Description,Wage")] Offer offer)
         {
             if (ModelState.IsValid)
             {
+                string email = User.Identity.Name;
+                AppUser user = _context.Users.FirstOrDefault(u => u.Email == email);
+                if (user == null) return null;
+                offer.UserId = user.Id;
+                offer.ExpirationDate = DateTime.Now.AddDays(14);
+                offer.LastModificationDate = DateTime.Now;
+                offer.CreationDate = DateTime.Now;
+                offer.ViewCounter = 0; // Marcin
+
                 _context.Add(offer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -91,7 +102,7 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
         }
 
         // POST: Offers/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -161,6 +172,15 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
         private bool OfferExists(int id)
         {
             return _context.Offers.Any(e => e.Id == id);
+        }
+
+        public async Task<IActionResult> MyOffers()
+        {
+            string email = User.Identity.Name;
+            AppUser user = _context.Users.FirstOrDefault(u => u.Email == email);
+            if (user == null) return null;
+            var offers = await _context.Offers.Where(o => o.User.Id == user.Id).ToListAsync();
+            return View(offers);
         }
     }
 }
