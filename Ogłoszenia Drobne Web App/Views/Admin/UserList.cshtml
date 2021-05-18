@@ -53,12 +53,14 @@
                     @Html.DisplayFor(model => user.ZipCode)
                 </td>
                 <td>
-                    <a asp-action="Block" asp-route-id="@user.Id">
-                        Zablokuj
-                    </a>
-                    <a asp-action="unblock" asp-route-id="@user.Id">
-                        Odblokuj
-                    </a>
+                    @if (user.LockoutEnabled == true && user.LockoutEnd > DateTime.Now)
+                    {
+                        <a asp-action="UnblockUser" asp-route-id="@user.Id">Odblokuj</a>
+                    }
+                    else
+                    {
+                        <a asp-action="BlockUser" asp-route-id="@user.Id">Zablokuj</a>
+                    }
                 </td>
             </tr>
         }
