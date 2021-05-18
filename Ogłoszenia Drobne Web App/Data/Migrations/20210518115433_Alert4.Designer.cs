@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Ogłoszenia_Drobne_Web_App.Data;
 
 namespace Ogłoszenia_Drobne_Web_App.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210518115433_Alert4")]
+    partial class Alert4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -267,20 +269,17 @@ namespace Ogłoszenia_Drobne_Web_App.Data.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Atributes");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Atribute");
                 });
 
             modelBuilder.Entity("Ogłoszenia_Drobne_Web_App.Models.BlackWord", b =>
@@ -440,49 +439,6 @@ namespace Ogłoszenia_Drobne_Web_App.Data.Migrations
                     b.ToTable("OfferReports");
                 });
 
-            modelBuilder.Entity("Ogłoszenia_Drobne_Web_App.Models.DateTimeAtribute", b =>
-                {
-                    b.HasBaseType("Ogłoszenia_Drobne_Web_App.Models.Atribute");
-
-                    b.Property<DateTime?>("Value")
-                        .HasColumnType("datetime2");
-
-                    b.HasDiscriminator().HasValue("DateTimeAtribute");
-                });
-
-            modelBuilder.Entity("Ogłoszenia_Drobne_Web_App.Models.DoubleAtribute", b =>
-                {
-                    b.HasBaseType("Ogłoszenia_Drobne_Web_App.Models.Atribute");
-
-                    b.Property<double?>("Value")
-                        .HasColumnName("DoubleAtribute_Value")
-                        .HasColumnType("float");
-
-                    b.HasDiscriminator().HasValue("DoubleAtribute");
-                });
-
-            modelBuilder.Entity("Ogłoszenia_Drobne_Web_App.Models.NumberAtribute", b =>
-                {
-                    b.HasBaseType("Ogłoszenia_Drobne_Web_App.Models.Atribute");
-
-                    b.Property<int?>("Value")
-                        .HasColumnName("NumberAtribute_Value")
-                        .HasColumnType("int");
-
-                    b.HasDiscriminator().HasValue("NumberAtribute");
-                });
-
-            modelBuilder.Entity("Ogłoszenia_Drobne_Web_App.Models.TextAtribute", b =>
-                {
-                    b.HasBaseType("Ogłoszenia_Drobne_Web_App.Models.Atribute");
-
-                    b.Property<string>("Value")
-                        .HasColumnName("TextAtribute_Value")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasDiscriminator().HasValue("TextAtribute");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -537,7 +493,7 @@ namespace Ogłoszenia_Drobne_Web_App.Data.Migrations
             modelBuilder.Entity("Ogłoszenia_Drobne_Web_App.Models.Atribute", b =>
                 {
                     b.HasOne("Ogłoszenia_Drobne_Web_App.Models.Category", "Category")
-                        .WithMany("CategoryAtributes")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();

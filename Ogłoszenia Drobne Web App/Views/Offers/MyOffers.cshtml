@@ -1,14 +1,13 @@
 ﻿@model IEnumerable<Ogłoszenia_Drobne_Web_App.Models.Offer>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Moje ogłoszenia";
 }
 
-<h1>Ogłoszenia</h1>
-
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Dodaj ogłoszenie</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
@@ -22,9 +21,6 @@
                 @Html.DisplayNameFor(model => model.CreationDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastModificationDate)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.ExpirationDate)
             </th>
             <th>
@@ -35,9 +31,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
             </th>
             <th></th>
         </tr>
@@ -56,9 +49,6 @@
                     @Html.DisplayFor(modelItem => item.CreationDate)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.LastModificationDate)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.ExpirationDate)
                 </td>
                 <td>
@@ -71,10 +61,9 @@
                     @Html.DisplayFor(modelItem => item.Category.Id)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.User.Id)
-                </td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edytuj</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Szczegóły</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Usuń</a>
                 </td>
             </tr>
         }

@@ -1,0 +1,85 @@
+﻿html, .container-fluid .row {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+}
+
+body {
+    width: 100%;
+    list-style-type: none;
+}
+
+.gradient {
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
+}
+
+.borderLogin {
+    border-style: solid;
+    border-color: rgba(65,26,88,1);
+    border-width: 4px;
+    border-radius: 15px;
+}
+
+.buttonLogin, .tableColor {
+    background-color: rgba(9,9,121,1);
+}
+
+.buttonDetails {
+    background-color: rgba(0,212,255,1);
+}
+
+a {
+    color: rgba(0,212,255,1);
+    text-decoration: none;
+}
+
+    a:hover {
+        color: rgba(9,9,121,1) !important;
+    }
+
+.adminAlert {
+    border-width: 4px;
+    border-style: solid;
+    border-color: rgba(9,9,121,1);
+    color: rgba(9,9,121,1);
+    border-radius: 15px;
+    min-height: auto;
+    margin: 5px;
+    font-size: 20px;
+    text-align: center;
+    padding: 5px;
+}
+
+.backgroundImage {
+    margin: 0 !important;
+    padding: 0 !important;
+    margin-top: 100px;
+    width: auto !important;
+    max-width: 100%;
+    width: 100%;
+    background: url("../images/bck2.jpg") 0px -150px;
+    min-height: 650px;
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+}
+
+.h100 {
+    min-height: 200px !important;
+}
+
+.bg-secondary {
+    color: white !important;
+    background-color: rgba(9,9,121,1) !important;
+}
+
+.translate {
+    transform: translate(-200px,-10px);
+}
+
+dl {
+    display: inline-block;
+    overflow: hidden;
+    text-align: left;
+}
