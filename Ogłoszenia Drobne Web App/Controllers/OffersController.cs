@@ -76,7 +76,7 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
 
                 _context.Add(offer);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(MyOffers));
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", offer.CategoryId);
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", offer.UserId);
@@ -106,8 +106,12 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,CategoryId,Title,Description,CreationDate,LastModificationDate,ExpirationDate,ViewCounter,Wage")] Offer offer)
+        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,Title,Description,Wage")] Offer offer)
         {
+            string email = User.Identity.Name;
+            AppUser user = _context.Users.FirstOrDefault(u => u.Email == email);
+            if (user == null) return NotFound();
+
             if (id != offer.Id)
             {
                 return NotFound();
@@ -117,8 +121,14 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
             {
                 try
                 {
-                    _context.Update(offer);
-                    await _context.SaveChangesAsync();
+                    if (offer.UserId == user.Id)
+                    {
+                        offer.LastModificationDate = DateTime.Now;
+                        _context.Update(offer);
+                        await _context.SaveChangesAsync();
+                    }
+                    else
+                        return NotFound();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -163,10 +173,20 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            string email = User.Identity.Name;
+            AppUser user = _context.Users.FirstOrDefault(u => u.Email == email);
+            if (user == null) return NotFound();
+
             var offer = await _context.Offers.FindAsync(id);
-            _context.Offers.Remove(offer);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            if (offer.UserId == user.Id)
+            {
+                _context.Offers.Remove(offer);
+                await _context.SaveChangesAsync();
+            }
+            else
+                return NotFound();
+
+            return RedirectToAction(nameof(MyOffers));
         }
 
         private bool OfferExists(int id)
@@ -178,7 +198,7 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
         {
             string email = User.Identity.Name;
             AppUser user = _context.Users.FirstOrDefault(u => u.Email == email);
-            if (user == null) return null;
+            if (user == null) return NotFound();
             var offers = await _context.Offers.Where(o => o.User.Id == user.Id).ToListAsync();
             return View(offers);
         }

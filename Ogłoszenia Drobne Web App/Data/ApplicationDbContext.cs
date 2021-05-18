@@ -27,9 +27,7 @@ namespace Ogłoszenia_Drobne_Web_App.Data
             {
                 entity.HasKey(e => new { e.AtributeId, e.OfferId });
             });
-
         }
-
 
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Offer> Offers { get; set; }
@@ -38,5 +36,6 @@ namespace Ogłoszenia_Drobne_Web_App.Data
         public virtual DbSet<OfferAtribute> OfferAtributes { get; set; }
         public virtual DbSet<OfferReport> OfferReports { get; set; }
         public virtual DbSet<File> Files { get; set; }
+        public virtual DbSet<Alert> Alerts { get; set; }
     }
 }
