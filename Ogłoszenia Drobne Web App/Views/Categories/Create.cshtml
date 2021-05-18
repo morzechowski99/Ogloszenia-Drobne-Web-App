@@ -22,6 +22,10 @@
                 <select asp-for="ParentCategoryId" class ="form-control" asp-items="ViewBag.ParentCategoryId"></select>
             </div>
             <div class="form-group">
+                <label>Drzewo kategorii</label>
+                <div class="category-tree"></div>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
@@ -34,4 +38,7 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/Categories/Create.js">
+
+    </script>
 }

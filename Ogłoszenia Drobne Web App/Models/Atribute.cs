@@ -16,7 +16,6 @@ namespace Ogłoszenia_Drobne_Web_App.Models
         public int Id { get; set; }
         public int CategoryId { get; set; }
         public string Name { get; set; }
-        public AtributeType Type { get; set; }
 
         public virtual Category Category { get; set; }
 
