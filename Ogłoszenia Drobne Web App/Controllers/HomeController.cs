@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Ogłoszenia_Drobne_Web_App.Data;
 using Ogłoszenia_Drobne_Web_App.Models;
 
 namespace Ogłoszenia_Drobne_Web_App.Controllers
@@ -12,14 +13,20 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
         {
+            ViewData["Alert"] = "Admin Alert!";
+            Alert alert = (Alert)_context.Alerts.OrderByDescending(a => a.CreateDate).FirstOrDefault();
+            if (alert != null)
+                ViewData["Alert"] = alert.Content;
             return View();
         }
 
