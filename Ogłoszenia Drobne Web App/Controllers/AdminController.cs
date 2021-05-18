@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Ogłoszenia_Drobne_Web_App.Data;
 using Ogłoszenia_Drobne_Web_App.Models;
@@ -13,10 +14,12 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
     public class AdminController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<AppUser> _userManager;
 
-        public AdminController(ApplicationDbContext context)
+        public AdminController(ApplicationDbContext context, UserManager<AppUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
@@ -48,22 +51,31 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
             return View();
         }
 
-        //public bool LockUser(string email, DateTime? endDate)
-        //{
-        //    if (endDate == null)
-        //        endDate = EndDate;
+        public async Task<IActionResult> BlockUser(string id, DateTime? endDate)
+        {
+            AppUser user = _context.Users.FirstOrDefault(u => u.Id == id);
+            if (user == null) return Unauthorized();
 
-        //    var userTask = _userManager.FindByEmailAsync(email);
-        //    userTask.Wait();
-        //    var user = userTask.Result;
+            if (endDate == null)
+                endDate = DateTime.Now.AddYears(100);
 
-        //    var lockUserTask = _userManager.SetLockoutEnabledAsync(user, true);
-        //    lockUserTask.Wait();
+            await _userManager.SetLockoutEnabledAsync(user, true);
 
-        //    var lockDateTask = _userManager.SetLockoutEndDateAsync(user, endDate);
-        //    lockDateTask.Wait();
+            await _userManager.SetLockoutEndDateAsync(user, endDate);
 
-        //    return lockDateTask.Result.Succeeded && lockUserTask.Result.Succeeded;
-        //}
+            return RedirectToAction("UserList", "Admin");
+        }
+
+        public async Task<IActionResult> UnblockUser(string id)
+        {
+            AppUser user = _context.Users.FirstOrDefault(u => u.Id == id);
+            if (user == null) return Unauthorized();
+
+            await _userManager.SetLockoutEnabledAsync(user, false);
+
+            await _userManager.SetLockoutEndDateAsync(user, null);
+
+            return RedirectToAction("UserList", "Admin");
+        }
     }
 }

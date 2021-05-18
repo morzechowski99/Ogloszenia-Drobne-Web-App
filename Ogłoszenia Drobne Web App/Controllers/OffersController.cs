@@ -22,10 +22,20 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
         }
 
         // GET: Offers
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? searchString)
         {
-            var applicationDbContext = _context.Offers.Include(o => o.Category).Include(o => o.User);
-            return View(await applicationDbContext.ToListAsync());
+            
+            ViewData["CurrentFilter"] = searchString;
+            var offers = from s in _context.Offers
+                         select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                searchString = searchString.ToLower();
+                offers = _context.Offers.Where(s => s.Title.ToLower().Contains(searchString) ||
+                s.Description.ToLower().Contains(searchString) || searchString.Contains(s.Category.CategoryName.ToLower()));
+            }
+
+            return View(await offers.Include(o => o.Category).Include(o => o.User).AsNoTracking().ToListAsync());
         }
 
         // GET: Offers/Details/5
@@ -96,6 +106,10 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
             {
                 return NotFound();
             }
+            string email = User.Identity.Name;
+            AppUser user = _context.Users.FirstOrDefault(u => u.Email == email);
+            if (user == null) return Unauthorized();
+            if (offer.UserId != user.Id) return Unauthorized();
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", offer.CategoryId);
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", offer.UserId);
             return View(offer);
@@ -164,7 +178,10 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
             {
                 return NotFound();
             }
-
+            string email = User.Identity.Name;
+            AppUser user = _context.Users.FirstOrDefault(u => u.Email == email);
+            if (user == null) return Unauthorized();
+            if (offer.UserId != user.Id) return Unauthorized();
             return View(offer);
         }
 
@@ -184,7 +201,7 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
                 await _context.SaveChangesAsync();
             }
             else
-                return NotFound();
+                return Unauthorized();
 
             return RedirectToAction(nameof(MyOffers));
         }

@@ -24,7 +24,7 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
         public IActionResult Index()
         {
             ViewData["Alert"] = "Admin Alert!";
-            Alert alert = (Alert)_context.Alerts.OrderByDescending(a => a.CreateDate).FirstOrDefault();
+            Alert alert = _context.Alerts.OrderByDescending(a => a.CreateDate).FirstOrDefault();
             if (alert != null)
                 ViewData["Alert"] = alert.Content;
             return View();
