@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Ogłoszenia_Drobne_Web_App.Data;
 using Ogłoszenia_Drobne_Web_App.Models;
+using Ogłoszenia_Drobne_Web_App.Pagination;
 
 namespace Ogłoszenia_Drobne_Web_App.Controllers
 {
@@ -22,9 +23,8 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
         }
 
         // GET: Offers
-        public async Task<IActionResult> Index(string? searchString)
+        public async Task<IActionResult> Index(string? searchString, int? pageNumber)
         {
-            
             ViewData["CurrentFilter"] = searchString;
             var offers = from s in _context.Offers
                          select s;
@@ -35,7 +35,8 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
                 s.Description.ToLower().Contains(searchString) || searchString.Contains(s.Category.CategoryName.ToLower()));
             }
 
-            return View(await offers.Include(o => o.Category).Include(o => o.User).AsNoTracking().ToListAsync());
+            int pageSize = 5;
+            return View(await PaginatedList<Offer>.CreateAsync(offers.Include(o => o.Category).Include(o => o.User).AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Offers/Details/5
