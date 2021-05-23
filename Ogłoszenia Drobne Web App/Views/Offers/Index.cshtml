@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Ogłoszenia_Drobne_Web_App.Models.Offer>
+﻿@model Ogłoszenia_Drobne_Web_App.Pagination.PaginatedList<Ogłoszenia_Drobne_Web_App.Models.Offer>
 
 @{
     ViewData["Title"] = "Index";
@@ -7,37 +7,39 @@
 <h1>Ogłoszenia</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Dodaj ogłoszenie</a>
 </p>
+
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Wyszukaj: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+            <input type="submit" value="Szukaj" class="btn btn-default buttonDetails" /> |
+            <a asp-action="Index">Powrót</a>
+        </p>
+    </div>
+</form>
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                @Html.DisplayNameFor(model => model[0].Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                @Html.DisplayNameFor(model => model[0].Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CreationDate)
+                @Html.DisplayNameFor(model => model[0].ExpirationDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastModificationDate)
+                @Html.DisplayNameFor(model => model[0].ViewCounter)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ExpirationDate)
+                @Html.DisplayNameFor(model => model[0].Wage)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ViewCounter)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Wage)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
+                @Html.DisplayNameFor(model => model[0].Category)
             </th>
             <th></th>
         </tr>
@@ -53,12 +55,6 @@
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CreationDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LastModificationDate)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.ExpirationDate)
                 </td>
                 <td>
@@ -71,12 +67,29 @@
                     @Html.DisplayFor(modelItem => item.Category.Id)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.User.Id)
-                </td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    <a asp-action="Details" asp-route-id="@item.Id">Szczegóły</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default buttonDetails @prevDisabled">
+    Poprzednia
+</a>
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default buttonDetails @nextDisabled">
+    Nastepna
+</a>
