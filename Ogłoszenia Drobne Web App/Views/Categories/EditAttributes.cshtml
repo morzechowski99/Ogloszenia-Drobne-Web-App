@@ -1,0 +1,123 @@
+﻿@model IEnumerable<Ogłoszenia_Drobne_Web_App.Models.Atribute>
+
+@{
+    ViewData["Title"] = $"Atrybuty - {ViewBag.CategoryName}";
+    var categoryId = ViewBag.CategoryId;
+}
+<div class="container">
+    <h1>Edytuj atrybuty kategorii @ViewBag.CategoryName</h1>
+
+    <form id="addAtributeForm" asp-action="AddAttribute" >
+        <div class="row">
+            
+            <div class="col-12 col-md-4 form-group">
+                <input class="form-control"  type="text" required name="Name" placeholder="Nazwa" />
+            </div>
+            <div class="col-12 col-md-4 form-group">
+                <select class="form-control" name="Type" placeholder="Typ" required asp-items="ViewBag.AttributeTypes">
+               
+                    <option value="0">Data</option>
+                    <option value="1">Zmiennoprzecinkowy</option>
+                    <option value="2">Checkbox</option>
+                    <option value="3">Numer</option>
+                    <option value="4">Tekstowy</option>
+                </select>
+            </div>
+            <div class="col-12 col-md-2 form-group">
+                <input type="submit" class="btn btn-outline-primary" value="Dodaj" />
+            </div>
+
+        </div>
+    </form>
+    
+    <form id="editAtributeForm"  asp-action="EditAttribute" style="display:none" asp-route-id="@categoryId">
+        <div class="row">
+            <input type="hidden" name="Id" />
+            <div class="col-12 col-md-4 form-group">
+                <input class="form-control"  type="text" required name="Name" placeholder="Nazwa" />
+             
+            </div>
+            <div class="col-12 col-md-2 form-group">
+                <input type="submit" class="btn btn-outline-primary" value="Edytuj" />
+            </div>
+
+        </div>
+    </form>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    Typ
+                </th>
+                <th>
+                    Własny/Odziedziczony
+                </th>
+                <th>
+
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @switch (item)
+                        {
+                            case BoolAtribute value:
+                                <span>
+                                    Checkbox
+                                </span>
+                                break;
+                            case DateTimeAtribute value:
+                                <span>
+                                    Data
+                                </span>
+                                break;
+                            case DoubleAtribute value:
+                                <span>
+                                    Zmiennoprzecinkowy
+                                </span>
+                                break;
+                            case NumberAtribute value:
+                                <span>
+                                    Numer
+                                </span>
+                                break;
+                            case TextAtribute value:
+                                <span>
+                                    Tekstowy
+                                </span>
+                                break;
+                        }
+                    </td>
+                    <td>
+                        @if (item.CategoryId == categoryId)
+                        {<span>Własny</span>}
+                        else
+                        {<span>Odziedziczony</span>}
+                    </td>
+                    <td>
+                        @if (item.CategoryId == categoryId)
+                        {
+                            <button class="btn-link btn m-0 p-0 pr-1" onclick="deleteAtribute(@item.Id)">Usuń</button>
+                            <button class="btn-link btn m-0 p-0 pl-1" onclick="editAttribute(@item.Id,'@item.Name')" >Edytuj</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+   <script src="~/js/Categories/EditAttributes.js"></script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
