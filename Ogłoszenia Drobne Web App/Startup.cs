@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Ogłoszenia_Drobne_Web_App.Models;
+using Ogłoszenia_Drobne_Web_App.Services;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace Ogłoszenia_Drobne_Web_App
 {
@@ -36,6 +38,7 @@ namespace Ogłoszenia_Drobne_Web_App
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddScoped<IEmailSender, EmailSender>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
