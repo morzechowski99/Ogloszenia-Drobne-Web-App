@@ -1,37 +1,86 @@
-﻿@model Ogłoszenia_Drobne_Web_App.Models.Category
+﻿@model Ogłoszenia_Drobne_Web_App.ViewModels.CreateCategoryViewModel
 
 @{
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<div class="container">
+    <h1>Dodaj nową kategorię</h1>
 
-<h4>Category</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="CategoryName" class="control-label"></label>
-                <input asp-for="CategoryName" class="form-control" />
-                <span asp-validation-for="CategoryName" class="text-danger"></span>
+    <hr />
+
+    <form asp-action="Create" id="form">
+        <div class="row">
+            <div class="col-md-4">
+
+                <div class="form-group">
+                    <label asp-for="CategoryName" class="control-label"></label>
+                    <input asp-for="CategoryName" class="form-control categoryInput" />
+                    <span asp-validation-for="CategoryName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ParentCategoryId" class="control-label"></label>
+                    <select asp-for="ParentCategoryId" class="form-control parentCategory" asp-items="ViewBag.ParentCategoryId">
+                        <option value="">Kategoria nadrzędna</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Drzewo kategorii</label>
+                    <div class="category-tree"></div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="ParentCategoryId" class="control-label"></label>
-                <select asp-for="ParentCategoryId" class ="form-control" asp-items="ViewBag.ParentCategoryId"></select>
+            <div class="col-md-8">
+                <div class="col-md-6">
+                    <div class="form-group addAtributeDiv">
+                        <button type="button" class="addAtributeButton btn btn-outline-primary">Dodaj atrybut</button>
+                    </div>
+                    <div class="addAtributeForm" style="display:none">
+                        <div class="form-group">
+                            <label class="control-label">Nazwa atrybutu</label>
+                            <input type="text" class="form-control mb-2" name="AtributeName" />
+                            <span id="AtributeNameValidation" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Typ atrybutu</label>
+                            <select class="form-control" name="AtributeType" asp-items="ViewBag.AtributeTypes"></select>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="addAtributeSubmitButton btn btn-outline-primary">Dodaj</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="col-md-8">
+                <table class="table table-striped atributeTable">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Nazwa</th>
+                            <th>Typ</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
             </div>
-        </form>
+        </div>
+        <div class="form-group">
+           
+            <input type="submit" value="Stwórz" class="btn btn-primary" />
+        </div>
+
+
+    </form>
+
+
+    <div>
+        <a asp-action="Index">Back to List</a>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/Categories/Create.js">
+
+    </script>
 }

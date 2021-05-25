@@ -2,38 +2,45 @@
 
 @{
     ViewData["Title"] = "Edit";
+    var parent = Model.ParentCategoryId;
 }
+<div class="container ">
+    <h1>Edytuj</h1>
 
-<h1>Edit</h1>
+    <h4>Kategoria</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <div class="form-group">
+                    <label asp-for="CategoryName" class="control-label"></label>
+                    <input asp-for="CategoryName" class="form-control categoryInput" />
+                    <span asp-validation-for="CategoryName" class="text-danger "></span>
+                </div>
+                <div>
+                    <span>Drzewo kategorii</span>
+                    <div class="tree"></div>
+                </div>
+                <div class="form-group mt-2">
+                    <input type="submit" value="Zapisz" class="btn btn-primary" />
+                    <a class="btn btn-outline-primary" asp-action="EditAttributes" asp-route-id="@Model.Id">Edytuj atrybuty</a>
+                </div>
 
-<h4>Category</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="CategoryName" class="control-label"></label>
-                <input asp-for="CategoryName" class="form-control" />
-                <span asp-validation-for="CategoryName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ParentCategoryId" class="control-label"></label>
-                <select asp-for="ParentCategoryId" class="form-control" asp-items="ViewBag.ParentCategoryId"></select>
-                <span asp-validation-for="ParentCategoryId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Anuluj</a>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
+<script>
+    const parentCategory = @parent
+</script>
+    <script src="~/js/Categories/Edit.js">
+    </script>
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
