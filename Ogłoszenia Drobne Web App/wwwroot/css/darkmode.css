@@ -7,11 +7,13 @@
 body {
     width: 100%;
     list-style-type: none;
+    color: #a5b1c4;
+    background: #151e2e;
 }
 
 .gradient {
     background: rgb(2,0,36);
-    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(12,36,41,1) 100%);
 }
 
 .borderLogin {
@@ -23,20 +25,22 @@ body {
 
 .buttonLogin, .tableColor {
     background-color: rgba(9,9,121,1);
-    color: white;
 }
 
 .buttonDetails {
     background-color: rgba(0,212,255,1);
-    color: white;
 }
 
+a {
+    color: rgba(0,212,255,1);
+    text-decoration: none;
+}
 
 .adminAlert {
     border-width: 4px;
     border-style: solid;
     border-color: rgba(9,9,121,1);
-    color: rgba(9,9,121,1);
+    color: #a5b1c4;
     border-radius: 15px;
     min-height: auto;
     margin: 5px;
@@ -78,24 +82,6 @@ dl {
     text-align: left;
 }
 
-.contrast {
-    color: yellow;
-    background: black;
-    border-color: black;
-}
-
-.darkmode {
-    color: white;
-    background: gray;
-    border-color: gray;
-}
-
-.default {
-    color: white;
-    background: blue;
-    border-color: blue;
-}
-
 .default, .darkmode, .contrast {
     border-width: 3px;
     border-radius: 15px;
@@ -105,22 +91,36 @@ dl {
     margin-top: 6px;
 }
 
-header, footer, title, .containe, .footer{
-    color: white;
+header, footer, a, title, .containe, th, td, .footer {
+    color: #a5b1c4;
 }
-
-    header a {
-        color: white;
-    }
-
-.dropdown-item {
-    color: white !important;
-}
-
 a:hover {
-    color: white;
+    color: #a5b1c4;   
 }
 
-button {
-color: white;
+.contrast {
+    color: #a5b1c4 !important;
+    background: yellow !important;
+    background-color: yellow !important;
+}
+
+.darkmode {
+    color: #a5b1c4 !important;
+    background: gray;
+    background-color: gray;
+}
+
+.default {
+    color: white !important;
+    background: blue;
+    background-color: blue;
+}
+
+.default, .darkmode, .contrast {
+    border-width: 3px;
+    border-radius: 15px;
+    opacity: 50%;
+    border-style: solid;
+    margin: 3px;
+    margin-top: 6px;
 }

@@ -6,14 +6,24 @@
     <title>@ViewData["Title"] - Ogłoszenia_Drobne_Web_App</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    @*@if (Context.Request.Cookies["darkmode"] == "true") { }*@
-    <link rel="stylesheet" href="~/css/style.css" />
+    @if (Context.Request.Cookies["theme"] == "darkmode")
+    {
+        <link rel="stylesheet" href="~/css/darkmode.css" />
+}
+    @if (Context.Request.Cookies["theme"] == "contrast")
+    {
+        <link rel="stylesheet" href="~/css/contrast.css" />
+}
+    @if (Context.Request.Cookies["theme"] == "default")
+    {
+        <link rel="stylesheet" href="~/css/style.css" />
+}
 </head>
 <body>
     <header>
-        <nav class="navbar gradient navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3 text-white">
+        <nav class="navbar gradient navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index">Ogłoszenia Drobne O.N</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Ogłoszenia Drobne O.N</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -22,13 +32,13 @@
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="BlackWords" asp-action="Index">Zakazane Słowa</a>
+                            <a class="nav-link" asp-area="" asp-controller="BlackWords" asp-action="Index">Zakazane Słowa</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Categories" asp-action="Index">Kategorie</a>
+                            <a class="nav-link" asp-area="" asp-controller="Categories" asp-action="Index">Kategorie</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Offers" asp-action="Index">Ogłoszenia</a>
+                            <a class="nav-link" asp-area="" asp-controller="Offers" asp-action="Index">Ogłoszenia</a>
                         </li>
                     </ul>
                 </div>
@@ -38,14 +48,14 @@
                 @if (Context.User.IsInRole("Admin"))
                 {
                     <li class="nav-item nav-item dropdow mr-lg-3">
-                        <a class="nav-link dropdown-toggle text-light mt-1" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle mt-1" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span>Panel administracyjny</span>
                         </a>
-                        <div id="text" class="dropdown-menu dropdown-menu-right bg-secondary text-white translate" aria-labelledby="navbarDropdown">
+                        <div id="text" class="dropdown-menu dropdown-menu-right bg-secondary translate" aria-labelledby="navbarDropdown">
                             @*<a class="dropdown-item nav-link text-white" asp-area="" asp-controller="Category" asp-action="Index">Lista kategorii</a>
                                 <a class="dropdown-item nav-link text-white" asp-area="" asp-controller="Category" asp-action="Create">Dodaj kategorię</a>*@
-                            <a class="dropdown-item nav-link text-white" asp-area="" asp-controller="Admin" asp-action="UserList">Lista użytkowników</a>
-                            <a class="dropdown-item nav-link text-white" asp-area="" asp-controller="Admin" asp-action="AddAdminAlert">Alert</a>
+                            <a class="dropdown-item nav-link" asp-area="" asp-controller="Admin" asp-action="UserList">Lista użytkowników</a>
+                            <a class="dropdown-item nav-link" asp-area="" asp-controller="Admin" asp-action="AddAdminAlert">Alert</a>
                             @*<a class="dropdown-item nav-link text-white" asp-area="" asp-controller="Offers" asp-action="ReportedOffers">Zgłoszone oferty</a>
                                 <a class="dropdown-item nav-link text-white" asp-area="" asp-controller="Admin" asp-action="ReportedUsers">Zgłoszeni użytkownicy</a>
                                 <a class="dropdown-item nav-link text-white" asp-area="" asp-controller="Admin" asp-action="BlockedUsers">Zablokowani użytkownicy</a>
@@ -56,17 +66,17 @@
                 }
 
                 <li class="nav-item nav-item dropdown mr-lg-3">
-                    <a class="nav-link dropdown-toggle text-light mt-1" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle mt-1" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Zalogowany
                     </a>
-                    <div id="text" class="dropdown-menu dropdown-menu-right bg-secondary text-white mt-0" aria-labelledby="navbarDropdown">
+                    <div id="text" class="dropdown-menu dropdown-menu-right bg-secondary mt-0" aria-labelledby="navbarDropdown">
                         @*<a class="dropdown-item nav-link text-white" asp-area="" asp-controller="User" asp-action="MyDetails">Szczegóły konta</a>
                             <a class="dropdown-item nav-link text-white" asp-area="" asp-controller="User" asp-action="MyEdit">Edytuj dane</a>*@
-                        <a class="dropdown-item nav-link text-white" asp-area="" asp-controller="Offers" asp-action="MyOffers">Moje oferty</a>
-                        <a class="dropdown-item nav-link text-white" asp-area="" asp-controller="Offers" asp-action="Create">Dodaj ogłoszenie</a>
+                        <a class="dropdown-item nav-link" asp-area="" asp-controller="Offers" asp-action="MyOffers">Moje oferty</a>
+                        <a class="dropdown-item nav-link" asp-area="" asp-controller="Offers" asp-action="Create">Dodaj ogłoszenie</a>
                         <div class="dropdown-divider"></div>
                         <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                            <button type="submit" class="nav-link btn btn-link text-white">Wyloguj</button>
+                            <button type="submit" class="nav-link btn btn-link">Wyloguj</button>
                         </form>
                     </div>
                 </li>
@@ -75,14 +85,14 @@
             else
             {
                 <li class="nav-item">
-                    <button type="button" class="btn bg-transparent text-white">
-                        <a class="nav-link  text-white" asp-area="Identity" asp-page="/Account/Login"><span>Logowanie</span></a>
+                    <button type="button" class="btn bg-transparent">
+                        <a class="nav-link" asp-area="Identity" asp-page="/Account/Login"><span>Logowanie</span></a>
                     </button>
                 </li>
 
                 <li class="nav-item">
-                    <button type="button" class="btn bg-transparent text-white">
-                        <a class="nav-link  text-white" asp-area="Identity" asp-page="/Account/Register"><span>Rejestracja</span></a>
+                    <button type="button" class="btn bg-transparent">
+                        <a class="nav-link" asp-area="Identity" asp-page="/Account/Register"><span>Rejestracja</span></a>
                     </button>
                 </li>
             }
@@ -94,14 +104,68 @@
         </main>
     </div>
 
-    <footer class="border-top footer gradient text-white">
+    <footer class="border-top footer gradient">
         <div class="container">
-            &copy; 2021 - Ogłoszenia-Drobne-Nieweglowski-Orzechowski MVC</a>
+            <a>&copy; 2021 - Ogłoszenia-Drobne-Nieweglowski-Orzechowski MVC</a>
+            <button class="nav-link btn darkmode float-lg-right" id="darkmode">darkomode</button>
+            <button class="nav-link btn contrast float-lg-right" id="contrast">contrast</button>
+            <button class="nav-link btn default float-lg-right" id="default">domyślny</button>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
+
+    <script>
+
+        var cookieTheme = getCookie("theme");
+        if (cookieTheme === undefined)
+            document.cookie = "theme=default";
+
+        document.getElementById("darkmode").onclick = function () { darkmodeTheme() };
+        document.getElementById("contrast").onclick = function () { contrastTheme() };
+        document.getElementById("default").onclick = function () { defaultTheme() };
+
+        function darkmodeTheme() {
+            setCookie("theme", "darkmode", 365);
+            location.reload();
+        }
+
+        function contrastTheme() {
+            setCookie("theme", "contrast", 365);
+            location.reload();
+        }
+
+        function defaultTheme() {
+            setCookie("theme", "default", 365);
+            location.reload();
+        }
+
+        function getCookie(name) {
+            var dc = document.cookie;
+            var prefix = name + "=";
+            var begin = dc.indexOf("; " + prefix);
+            if (begin == -1) {
+                begin = dc.indexOf(prefix);
+                if (begin != 0) return null;
+            }
+            else {
+                begin += 2;
+                var end = document.cookie.indexOf(";", begin);
+                if (end == -1) {
+                    end = dc.length;
+                }
+            }
+            return decodeURI(dc.substring(begin + prefix.length, end));
+        }
+
+        function setCookie(cname, cvalue, exdays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+            var expires = "expires=" + d.toUTCString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        }
+    </script>
 </body>
 </html>
