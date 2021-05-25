@@ -13,7 +13,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Ogłoszenia_Drobne_Web_App.Models;
+using Ogłoszenia_Drobne_Web_App.Services;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Ogłoszenia_Drobne_Web_App.Mapper;
+
 
 namespace Ogłoszenia_Drobne_Web_App
 {
@@ -39,7 +42,9 @@ namespace Ogłoszenia_Drobne_Web_App
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             ); 
             services.AddRazorPages();
+            services.AddScoped<IEmailSender, EmailSender>();       
             services.AddAutoMapper(typeof(Startup));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
