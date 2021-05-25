@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Ogłoszenia_Drobne_Web_App.Models
 {
-    public class TextAtribute : Atribute
+    public class BoolAtribute : Atribute
     {
     }
 }

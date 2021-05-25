@@ -16,7 +16,7 @@ namespace Ogłoszenia_Drobne_Web_App.Data
         {
             foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {
-                relationship.DeleteBehavior = DeleteBehavior.Restrict;
+                relationship.DeleteBehavior = DeleteBehavior.Cascade;
             }
             base.OnModelCreating(builder);
             builder.Entity<Offer>(entity =>

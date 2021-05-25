@@ -7,6 +7,5 @@ namespace Ogłoszenia_Drobne_Web_App.Models
 {
     public class NumberAtribute : Atribute
     {
-        public int? Value { get; set; }
     }
 }

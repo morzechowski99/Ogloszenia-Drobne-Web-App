@@ -22,6 +22,7 @@ namespace Ogłoszenia_Drobne_Web_App.Models
         public virtual ICollection<Offer> Offer { get; set; }
         public virtual ICollection<Category> ChildCategories { get; set; }
         public virtual ICollection<Atribute> CategoryAtributes { get; set; }
+        [Display(Name = "Kategoria nadrzędna")]
         public virtual Category ParentCategory { get; set; }
     }
 }
