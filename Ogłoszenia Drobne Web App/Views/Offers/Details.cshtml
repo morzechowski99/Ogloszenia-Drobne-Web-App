@@ -67,8 +67,10 @@
             </dd>
         </dl>
     </div>
+    <div>
+        <a class="btn buttonDetails" asp-action="Edit" asp-route-id="@Model.Id">Edytuj</a>
+        <a class="btn buttonDetails" asp-action="Report" asp-route-id="@Model.Id">Zgłoś</a>
+        <a class="btn buttonDetails" asp-action="MyOffers">Powrót</a>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edytuj</a> |
-    <a asp-action="MyOffers">Powrót</a>
-</div>
+
