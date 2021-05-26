@@ -16,7 +16,7 @@ namespace Ogłoszenia_Drobne_Web_App.Data
         {
             foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {
-                relationship.DeleteBehavior = DeleteBehavior.Restrict;
+                relationship.DeleteBehavior = DeleteBehavior.Cascade;
             }
             base.OnModelCreating(builder);
             builder.Entity<Offer>(entity =>
@@ -37,5 +37,10 @@ namespace Ogłoszenia_Drobne_Web_App.Data
         public virtual DbSet<OfferReport> OfferReports { get; set; }
         public virtual DbSet<File> Files { get; set; }
         public virtual DbSet<Alert> Alerts { get; set; }
+        public virtual DbSet<DateTimeAtribute> DateTimeAtributes { get; set; }
+        public virtual DbSet<DoubleAtribute> DoubleAtributes { get; set; }
+        public virtual DbSet<NumberAtribute> NumberAtributes { get; set; }
+        public virtual DbSet<TextAtribute> TextAtributes { get; set; }
+
     }
 }

@@ -5,9 +5,12 @@ using System.Threading.Tasks;
 
 namespace Ogłoszenia_Drobne_Web_App.Models.Enums
 {
-    public enum AtributeType
+    public enum AtributeTypes
     {
         Data,
-        Tekst,
+        Zmiennoprzecinkowy,
+        Checkbox,
+        Numer,
+        Tekstowy
     }
 }
