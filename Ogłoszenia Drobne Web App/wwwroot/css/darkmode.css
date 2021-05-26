@@ -28,7 +28,8 @@ body {
 }
 
 .buttonDetails {
-    background-color: rgba(0,212,255,1);
+    background-color: rgba(9,9,121,1);
+    color: #a5b1c4;
 }
 
 a {
@@ -94,9 +95,10 @@ dl {
 header, footer, a, title, .containe, th, td, .footer {
     color: #a5b1c4;
 }
-a:hover {
-    color: #a5b1c4;   
-}
+
+    a:hover {
+        color: #a5b1c4;
+    }
 
 .contrast {
     color: #a5b1c4 !important;
@@ -123,4 +125,14 @@ a:hover {
     border-style: solid;
     margin: 3px;
     margin-top: 6px;
+}
+
+.dropdown-item {
+    color: #a5b1c4 !important;
+}
+
+.dropdownColor {
+    background-color: #151e2e;
+    border-width: 2px;
+    border-color: #a5b1c4;
 }

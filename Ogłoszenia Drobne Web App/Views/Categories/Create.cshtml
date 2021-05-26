@@ -1,9 +1,23 @@
 ﻿@model Ogłoszenia_Drobne_Web_App.ViewModels.CreateCategoryViewModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Tworzenie kategorii";
 }
 
+<<<<<<< HEAD
+<h1>Tworznie</h1>
+
+<h4>Kategorii</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CategoryName" class="control-label"></label>
+                <input asp-for="CategoryName" class="form-control" />
+                <span asp-validation-for="CategoryName" class="text-danger"></span>
+=======
 <div class="container">
     <h1>Dodaj nową kategorię</h1>
 
@@ -28,6 +42,7 @@
                     <label>Drzewo kategorii</label>
                     <div class="category-tree"></div>
                 </div>
+>>>>>>> 7fa63d7b2b3b220642c9f0b36c66e04a986df4c5
             </div>
             <div class="col-md-8">
                 <div class="col-md-6">
@@ -50,6 +65,10 @@
                     </div>
                 </div>
             </div>
+<<<<<<< HEAD
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn buttonDetails" />
+=======
             <div class="col-md-8">
                 <table class="table table-striped atributeTable">
                     <thead class="thead-light">
@@ -63,6 +82,7 @@
 
                     </tbody>
                 </table>
+>>>>>>> 7fa63d7b2b3b220642c9f0b36c66e04a986df4c5
             </div>
         </div>
         <div class="form-group">
@@ -73,6 +93,12 @@
 
     </form>
 
+<<<<<<< HEAD
+<div>
+    <a class="btn buttonDetails" asp-action="Index">Powrót</a>
+</div>
+=======
+>>>>>>> 7fa63d7b2b3b220642c9f0b36c66e04a986df4c5
 
     <div>
         <a asp-action="Index">Back to List</a>

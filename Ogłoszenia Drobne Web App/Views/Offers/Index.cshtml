@@ -7,7 +7,7 @@
 <h1>Ogłoszenia</h1>
 
 <p>
-    <a asp-action="Create">Dodaj ogłoszenie</a>
+    <a class="btn buttonDetails" asp-action="Create">Dodaj ogłoszenie</a>
 </p>
 
 <form asp-action="Index" method="get">
@@ -15,7 +15,7 @@
         <p>
             Wyszukaj: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
             <input type="submit" value="Szukaj" class="btn btn-default buttonDetails" /> |
-            <a asp-action="Index">Powrót</a>
+            <a class="btn buttonDetails" asp-action="Index">Powrót</a>
         </p>
     </div>
 </form>
@@ -67,7 +67,7 @@
                     @Html.DisplayFor(modelItem => item.Category.CategoryName)
                 </td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">Szczegóły</a>
+                    <a class="btn buttonDetails" asp-action="Details" asp-route-id="@item.Id">Szczegóły</a>
                 </td>
             </tr>
         }
@@ -93,3 +93,14 @@
    class="btn btn-default buttonDetails @nextDisabled">
     Nastepna
 </a>
+
+<div class="btn-group" role="group">
+    <button id="btnGroupDrop1" type="button" class="btn buttonDetails dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Ilość ofert
+    </button>
+    <div class="dropdown-menu dropdownColor" aria-labelledby="btnPageSelect">
+        <a class="dropdown-item" href="#">5</a>
+        <a class="dropdown-item" href="#">10</a>
+        <a class="dropdown-item" href="#">15</a>
+    </div>
+</div>
