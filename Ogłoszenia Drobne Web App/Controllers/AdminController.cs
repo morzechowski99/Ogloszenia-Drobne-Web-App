@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Ogłoszenia_Drobne_Web_App.Data;
 using Ogłoszenia_Drobne_Web_App.Models;
 using System;
@@ -76,6 +77,12 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
             await _userManager.SetLockoutEndDateAsync(user, null);
 
             return RedirectToAction("UserList", "Admin");
+        }
+
+        public async Task<IActionResult> ReportedUsersList()
+        {
+            var reportedUsers = await _context.Offers.Where(o => o.reported == true).ToListAsync();
+            return View(reportedUsers);
         }
     }
 }

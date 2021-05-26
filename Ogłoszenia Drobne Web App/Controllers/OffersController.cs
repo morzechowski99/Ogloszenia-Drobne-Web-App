@@ -23,6 +23,7 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
         }
 
         // GET: Offers
+        [AllowAnonymous]
         public async Task<IActionResult> Index(string? searchString, int? pageNumber)
         {
             ViewData["CurrentFilter"] = searchString;
@@ -224,6 +225,42 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
             if (user == null) return NotFound();
             var offers = await _context.Offers.Where(o => o.User.Id == user.Id).ToListAsync();
             return View(offers);
+        }
+
+        public async Task<IActionResult> Report(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var offer = await _context.Offers.FindAsync(id);
+            if (offer == null)
+            {
+                return NotFound();
+            }
+            string email = User.Identity.Name;
+            AppUser user = _context.Users.FirstOrDefault(u => u.Email == email);
+            if (user == null) return Unauthorized();
+            try
+            {
+                offer.reported = true;
+                _context.Update(offer);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!OfferExists(offer.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }
