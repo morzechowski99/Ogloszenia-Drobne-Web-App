@@ -61,9 +61,9 @@
                     @Html.DisplayFor(modelItem => item.Category.Id)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edytuj</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Szczegóły</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Usuń</a>
+                    <a class="btn buttonDetails" asp-action="Edit" asp-route-id="@item.Id">Edytuj</a> 
+                    <a class="btn buttonDetails" asp-action="Details" asp-route-id="@item.Id">Szczegóły</a> 
+                    <a class="btn buttonDetails" asp-action="Delete" asp-route-id="@item.Id">Usuń</a>
                 </td>
             </tr>
         }

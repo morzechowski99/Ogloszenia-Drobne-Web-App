@@ -1,5 +1,4 @@
 ﻿html, .container-fluid, .row {
-    margin: 0 !important;
     padding: 0 !important;
     width: 100%;
 }
@@ -123,4 +122,10 @@ a:hover {
 
 button {
 color: white;
+}
+
+.dropdownColor {
+    background-color: rgba(9,9,121,1);
+    border-width: 2px;
+    border-color: white;
 }
