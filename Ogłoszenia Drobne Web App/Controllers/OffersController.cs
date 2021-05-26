@@ -34,8 +34,13 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
                 offers = _context.Offers.Where(s => s.Title.ToLower().Contains(searchString) ||
                 s.Description.ToLower().Contains(searchString) || searchString.Contains(s.Category.CategoryName.ToLower()));
             }
-
+            var page = HttpContext.Request.Cookies["page"];
             int pageSize = 5;
+            if (page != null)
+            {
+                pageSize = Int32.Parse(page);
+            }
+
             return View(await PaginatedList<Offer>.CreateAsync(offers.Include(o => o.Category).Include(o => o.User).AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
