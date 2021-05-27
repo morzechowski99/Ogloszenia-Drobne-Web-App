@@ -4,58 +4,60 @@
     ViewData["Title"] = "Zgłoszone oferty";
 }
 
-<h1>Zgłoszone oferty</h1>
+<div class="container">
+    <h1>Zgłoszone oferty</h1>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ExpirationDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ViewCounter)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Wage)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+    <table class="table table-striped">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ExpirationDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ViewCounter)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Wage)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Category.CategoryName)
-                </td>
-                <td>
-                    @*<a class="btn buttonDetails" asp-action="Details" asp-route-id="@item.Id">Szczegóły</a>*@
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ExpirationDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ViewCounter)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Wage)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Category)
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExpirationDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ViewCounter)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Wage)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Category.CategoryName)
+                    </td>
+                    <td>
+                        @*<a class="btn buttonDetails" asp-action="Details" asp-route-id="@item.Id">Szczegóły</a>*@
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

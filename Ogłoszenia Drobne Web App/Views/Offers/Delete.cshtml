@@ -6,7 +6,7 @@
 
 
 
-<div class="justify-content-center mt-lg-5">
+<div class="justify-content-center container mt-lg-5">
     <h1 class="text-center mt-lg-5">@ViewData["Title"]</h1>
     <h3 class="text-center">Czy napewno chcesz usunąć tą ofertę?</h3>
     <hr />
@@ -69,7 +69,7 @@
 
     <form asp-action="Delete" class="justify-content-center text-center">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Zatwierdź" class="btn btn-danger" /> |
-        <a asp-action="MyOffers">Powrót</a>
+        <input type="submit" value="Zatwierdź" class="btn btn-danger" /> 
+        <a  class="btn buttonDetails" asp-action="MyOffers">Powrót</a>
     </form>
 </div>

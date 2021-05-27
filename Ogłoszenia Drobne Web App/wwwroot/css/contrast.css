@@ -135,3 +135,8 @@ a:hover {
     border-width: 2px;
     border-color: yellow;
 }
+
+.container {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
