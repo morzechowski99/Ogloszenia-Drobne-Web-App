@@ -24,8 +24,8 @@
                     <div class="tree"></div>
                 </div>
                 <div class="form-group mt-2">
-                    <input type="submit" value="Zapisz" class="btn btn-primary" />
-                    <a class="btn btn-outline-primary" asp-action="EditAttributes" asp-route-id="@Model.Id">Edytuj atrybuty</a>
+                    <input type="submit" value="Zapisz" class="btn buttonDetails" />
+                    <a class="btn buttonDetails" asp-action="EditAttributes" asp-route-id="@Model.Id">Edytuj atrybuty</a>
                 </div>
 
             </form>
@@ -33,7 +33,7 @@
     </div>
 
     <div>
-        <a asp-action="Index">Anuluj</a>
+        <a class="btn buttonDetails" asp-action="Index">Anuluj</a>
     </div>
 </div>
 @section Scripts {
