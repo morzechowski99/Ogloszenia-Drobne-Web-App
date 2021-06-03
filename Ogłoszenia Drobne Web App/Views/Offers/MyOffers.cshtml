@@ -7,66 +7,45 @@
     <p>
         <a asp-action="Create">Dodaj ogłoszenie</a>
     </p>
+    
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Title)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CreationDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ExpirationDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ViewCounter)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Wage)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Category)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
+
+    
+   
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Title)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CreationDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ExpirationDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ViewCounter)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Wage)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Category.Id)
-                    </td>
-                    <td>
+                <div class="row mb-2 borderLogin">
+                    <div class="col-sm-12 col-md-9 p-2">
+                        <h3>@item.Title</h3>
+                    </div>
+                    <div class="col-sm-12 col-md-3 p-2">
+                        @if (item.Wage == null)
+                        {
+                            <span>Stawka nieokreślona</span>
+                        }
+                        else
+                        {
+                            <h4>@item.Wage zł</h4>
+                        }
+                    </div>
+                    <div class="col-sm-12 col-md-9 p-2">
+                        @if (item.Description?.Length > 300)
+                        {
+                            <span>@item.Description.Substring(0, 300)...</span>
+                        }
+                        else
+                        {
+                            <span>@item.Description</span>
+                        }
+                    </div>
+                    <div class="col-sm-12 col-md-3 p-2">
                         <a class="btn buttonDetails" asp-action="Edit" asp-route-id="@item.Id">Edytuj</a>
                         <a class="btn buttonDetails" asp-action="Details" asp-route-id="@item.Id">Szczegóły</a>
                         <a class="btn buttonDetails" asp-action="Delete" asp-route-id="@item.Id">Usuń</a>
-                    </td>
-                </tr>
+                    </div>
+                </div>
+                
+                    
             }
-        </tbody>
-    </table>
+
     </div>

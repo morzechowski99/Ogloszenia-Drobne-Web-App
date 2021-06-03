@@ -48,7 +48,7 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
 
             return View(await PaginatedList<Offer>.CreateAsync(offers.Include(o => o.Category).Include(o => o.User).AsNoTracking(), pageNumber ?? 1, pageSize));
         }
-
+        [AllowAnonymous]
         // GET: Offers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
