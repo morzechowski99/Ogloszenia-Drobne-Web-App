@@ -62,8 +62,7 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
         // GET: Offers/Create
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "CategoryName");
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Name");
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "CategoryName", null); 
             return View();
         }
 
@@ -219,6 +218,41 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
             if (user == null) return NotFound();
             var offers = await _context.Offers.Where(o => o.User.Id == user.Id).ToListAsync();
             return View(offers);
+        }
+
+        public async Task<IActionResult> AttributesPartial(int? categoryId)
+        {
+            if (categoryId == null)
+                return BadRequest();
+
+            var category = await _context.Categories
+                .Include(c => c.CategoryAtributes)
+                .Include(c => c.ParentCategory)
+                .Where(c => c.Id == categoryId)
+                .FirstOrDefaultAsync();
+
+            if (category == null)
+                return NotFound();
+
+            var parentCategory = await _context.Categories
+                                        .Include(c => c.CategoryAtributes)
+                                        .Where(c => c.Id == category.ParentCategoryId)
+                                        .FirstOrDefaultAsync();
+
+            while (parentCategory != null)
+            {
+                foreach (var attribute in parentCategory.CategoryAtributes)
+                {
+                    category.CategoryAtributes.Add(attribute);
+                }
+
+                parentCategory = await _context.Categories
+                                        .Include(c => c.CategoryAtributes)
+                                        .Where(c => c.Id == parentCategory.ParentCategoryId)
+                                        .FirstOrDefaultAsync();
+            }
+
+            return PartialView("_AttributesPartial", category.CategoryAtributes);
         }
     }
 }
