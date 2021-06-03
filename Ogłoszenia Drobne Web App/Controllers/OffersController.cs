@@ -60,11 +60,18 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
             var offer = await _context.Offers
                 .Include(o => o.Category)
                 .Include(o => o.User)
+                .Include(o => o.OfferAtributes)
+                .ThenInclude(oa => oa.Atribute)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (offer == null)
             {
                 return NotFound();
             }
+
+            offer.ViewCounter++;
+            _context.Update(offer);
+            await _context.SaveChangesAsync();
 
             return View(offer);
         }
@@ -85,6 +92,18 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
         {
             if (ModelState.IsValid)
             {
+                var blackWords = await _context.BlackWords.ToListAsync();
+                foreach (var blackword in blackWords)
+                {
+                    if (offerViewModel.Description.ToLower().Contains(blackword.Word.ToLower()))
+                    {
+                        ModelState.AddModelError("description", "Opis zawiera zakazane słowa");
+                        ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "CategoryName", offerViewModel.CategoryId);
+
+                        return View(offerViewModel);
+                    }
+                }
+                
                 string email = User.Identity.Name;
                 AppUser user = _context.Users.FirstOrDefault(u => u.Email == email);
                 if (user == null) return NotFound();
@@ -93,7 +112,7 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
                 offer.ExpirationDate = DateTime.Now.AddDays(14);
                 offer.LastModificationDate = DateTime.Now;
                 offer.CreationDate = DateTime.Now;
-                offer.ViewCounter = 0; 
+                offer.ViewCounter = 0;
 
                 foreach(var attribute in offerViewModel.Attributes)
                 {

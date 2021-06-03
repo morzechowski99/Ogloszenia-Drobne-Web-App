@@ -56,11 +56,14 @@ namespace Ogłoszenia_Drobne_Web_App.Models
         //[RegularExpression(@"^([0-9]*)([.,]*)([0-9]\d{0,1})$", ErrorMessage = "Zły format")]
         //[Display(Name = "Stawka")]
         //public string WageValue { get; set; }
+        [Display(Name = "Kategoria")]
         public virtual Category Category { get; set; }
+        [Display(Name ="Użytkownik")]
 
         public virtual AppUser User { get; set; }
 
         //public virtual ICollection<OfferReport> OfferReports { get; set; }
+        [Display(Name = "Atrybuty")]
         public virtual ICollection<OfferAtribute> OfferAtributes { get; set; }
 
         public virtual ICollection<File> Files { get; set; }
