@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataAnnotationsExtensions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -21,6 +22,7 @@ namespace Ogłoszenia_Drobne_Web_App.Models
         public string UserId { get; set; }
 
         [Display(Name = "Kategoria")]
+        [Min(0,ErrorMessage ="Kategoria jest wymagana")]
         public int CategoryId { get; set; }
 
         [MaxLength(40, ErrorMessage = "Tytuł może mieć maksymalnie 40 znaków")]
