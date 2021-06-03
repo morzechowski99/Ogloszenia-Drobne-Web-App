@@ -50,6 +50,8 @@ namespace Ogłoszenia_Drobne_Web_App.Models
         [DataType(DataType.Currency)]
         public decimal? Wage { get; set; }
 
+        public bool reported { get; set; }
+
         //[NotMapped]
         //[RegularExpression(@"^([0-9]*)([.,]*)([0-9]\d{0,1})$", ErrorMessage = "Zły format")]
         //[Display(Name = "Stawka")]

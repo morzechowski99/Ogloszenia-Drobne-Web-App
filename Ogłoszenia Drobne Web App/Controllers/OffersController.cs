@@ -23,6 +23,7 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
         }
 
         // GET: Offers
+        [AllowAnonymous]
         public async Task<IActionResult> Index(string? searchString, int? pageNumber)
         {
             ViewData["CurrentFilter"] = searchString;
@@ -34,8 +35,13 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
                 offers = _context.Offers.Where(s => s.Title.ToLower().Contains(searchString) ||
                 s.Description.ToLower().Contains(searchString) || searchString.Contains(s.Category.CategoryName.ToLower()));
             }
-
+            var page = HttpContext.Request.Cookies["page"];
             int pageSize = 5;
+            if (page != null)
+            {
+                pageSize = Int32.Parse(page);
+            }
+
             return View(await PaginatedList<Offer>.CreateAsync(offers.Include(o => o.Category).Include(o => o.User).AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
@@ -253,6 +259,42 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
             }
 
             return PartialView("_AttributesPartial", category.CategoryAtributes);
+        }
+
+        public async Task<IActionResult> Report(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var offer = await _context.Offers.FindAsync(id);
+            if (offer == null)
+            {
+                return NotFound();
+            }
+            string email = User.Identity.Name;
+            AppUser user = _context.Users.FirstOrDefault(u => u.Email == email);
+            if (user == null) return Unauthorized();
+            try
+            {
+                offer.reported = true;
+                _context.Update(offer);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!OfferExists(offer.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

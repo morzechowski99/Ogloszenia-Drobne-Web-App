@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<Ogłoszenia_Drobne_Web_App.Models.AppUser>
 
+<div class="container">
 <table class="table" id="userTable">
     <thead>
         <tr>
@@ -55,14 +56,15 @@
                 <td>
                     @if (user.LockoutEnabled == true && user.LockoutEnd > DateTime.Now)
                     {
-                        <a asp-action="UnblockUser" asp-route-id="@user.Id">Odblokuj</a>
+                        <a class="btn btn-primary buttonDetails" asp-action="UnblockUser" asp-route-id="@user.Id">Odblokuj</a>
                     }
                     else
                     {
-                        <a asp-action="BlockUser" asp-route-id="@user.Id">Zablokuj</a>
+                        <a class="btn btn-primary buttonDetails" asp-action="BlockUser" asp-route-id="@user.Id">Zablokuj</a>
                     }
                 </td>
             </tr>
         }
     </tbody>
 </table>
+</div>

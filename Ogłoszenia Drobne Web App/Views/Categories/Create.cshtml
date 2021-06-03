@@ -32,7 +32,7 @@
             <div class="col-md-8">
                 <div class="col-md-6">
                     <div class="form-group addAtributeDiv">
-                        <button type="button" class="addAtributeButton btn btn-outline-primary">Dodaj atrybut</button>
+                        <button type="button" class="addAtributeButton btn buttonDetails">Dodaj atrybut</button>
                     </div>
                     <div class="addAtributeForm" style="display:none">
                         <div class="form-group">
@@ -45,7 +45,7 @@
                             <select class="form-control" name="AtributeType" asp-items="ViewBag.AtributeTypes"></select>
                         </div>
                         <div class="form-group">
-                            <button type="button" class="addAtributeSubmitButton btn btn-outline-primary">Dodaj</button>
+                            <button type="button" class="addAtributeSubmitButton btn buttonDetails">Dodaj</button>
                         </div>
                     </div>
                 </div>
@@ -60,27 +60,22 @@
                         </tr>
                     </thead>
                     <tbody>
-
                     </tbody>
                 </table>
             </div>
         </div>
         <div class="form-group">
-           
-            <input type="submit" value="Stwórz" class="btn btn-primary" />
+
+            <input type="submit" value="Stwórz" class="btn buttonDetails" />
         </div>
-
-
     </form>
 
-
     <div>
-        <a asp-action="Index">Back to List</a>
+        <a class="btn buttonDetails" asp-action="Index">Powrót</a>
     </div>
 </div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="~/js/Categories/Create.js">
-
     </script>
 }

@@ -1,4 +1,5 @@
 ﻿html, .container-fluid, .row {
+    margin: 0 !important;
     padding: 0 !important;
     width: 100%;
 }
@@ -6,36 +7,41 @@
 body {
     width: 100%;
     list-style-type: none;
+    color: yellow;
+    background: black;
 }
 
 .gradient {
     background: rgb(2,0,36);
-    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(13,13,108,1) 50%, rgba(54,66,33,1) 100%);
 }
 
 .borderLogin {
     border-style: solid;
-    border-color: rgba(65,26,88,1);
+    border-color: yellow;
     border-width: 4px;
     border-radius: 15px;
 }
 
 .buttonLogin, .tableColor {
     background-color: rgba(9,9,121,1);
-    color: white;
 }
 
 .buttonDetails {
-    background-color: rgba(0,212,255,1);
-    color: white;
+    background-color: yellow;
+    color: black;
 }
 
+a {
+    color: yellow;
+    text-decoration: none;
+}
 
 .adminAlert {
     border-width: 4px;
     border-style: solid;
-    border-color: rgba(9,9,121,1);
-    color: rgba(9,9,121,1);
+    border-color: yellow;
+    color: yellow;
     border-radius: 15px;
     min-height: auto;
     margin: 5px;
@@ -77,22 +83,42 @@ dl {
     text-align: left;
 }
 
-.contrast {
+.default, .darkmode, .contrast {
+    border-width: 3px;
+    border-radius: 15px;
+    opacity: 50%;
+    border-style: solid;
+    margin: 3px;
+    margin-top: 6px;
+}
+
+header, footer, a, title, .containe, th, td, .footer {
     color: yellow;
-    background: black;
-    border-color: black;
+}
+
+a:hover {
+    color: yellow;
+}
+
+.dropdown-item {
+    color: yellow !important;
+}
+.contrast {
+    color: #a5b1c4 !important;
+    background: yellow !important;
+    background-color: yellow !important;
 }
 
 .darkmode {
-    color: white;
+    color: #a5b1c4 !important;
     background: gray;
-    border-color: gray;
+    background-color: gray;
 }
 
 .default {
-    color: white;
+    color: white !important;
     background: blue;
-    border-color: blue;
+    background-color: blue;
 }
 
 .default, .darkmode, .contrast {
@@ -104,30 +130,10 @@ dl {
     margin-top: 6px;
 }
 
-header, footer, title, .containe, .footer{
-    color: white;
-}
-
-    header a {
-        color: white;
-    }
-
-.dropdown-item {
-    color: white !important;
-}
-
-a:hover {
-    color: white;
-}
-
-button {
-color: white;
-}
-
 .dropdownColor {
-    background-color: rgba(9,9,121,1);
+    background-color: black;
     border-width: 2px;
-    border-color: white;
+    border-color: yellow;
 }
 
 .container {

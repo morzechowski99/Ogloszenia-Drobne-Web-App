@@ -1,4 +1,5 @@
 ﻿html, .container-fluid, .row {
+    margin: 0 !important;
     padding: 0 !important;
     width: 100%;
 }
@@ -6,11 +7,13 @@
 body {
     width: 100%;
     list-style-type: none;
+    color: #a5b1c4;
+    background: #151e2e;
 }
 
 .gradient {
     background: rgb(2,0,36);
-    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(12,36,41,1) 100%);
 }
 
 .borderLogin {
@@ -22,20 +25,23 @@ body {
 
 .buttonLogin, .tableColor {
     background-color: rgba(9,9,121,1);
-    color: white;
 }
 
 .buttonDetails {
-    background-color: rgba(0,212,255,1);
-    color: white;
+    background-color: rgba(9,9,121,1);
+    color: #a5b1c4;
 }
 
+a {
+    color: rgba(0,212,255,1);
+    text-decoration: none;
+}
 
 .adminAlert {
     border-width: 4px;
     border-style: solid;
     border-color: rgba(9,9,121,1);
-    color: rgba(9,9,121,1);
+    color: #a5b1c4;
     border-radius: 15px;
     min-height: auto;
     margin: 5px;
@@ -77,22 +83,39 @@ dl {
     text-align: left;
 }
 
+.default, .darkmode, .contrast {
+    border-width: 3px;
+    border-radius: 15px;
+    opacity: 50%;
+    border-style: solid;
+    margin: 3px;
+    margin-top: 6px;
+}
+
+header, footer, a, title, .containe, th, td, .footer {
+    color: #a5b1c4;
+}
+
+    a:hover {
+        color: #a5b1c4;
+    }
+
 .contrast {
-    color: yellow;
-    background: black;
-    border-color: black;
+    color: #a5b1c4 !important;
+    background: yellow !important;
+    background-color: yellow !important;
 }
 
 .darkmode {
-    color: white;
+    color: #a5b1c4 !important;
     background: gray;
-    border-color: gray;
+    background-color: gray;
 }
 
 .default {
-    color: white;
+    color: white !important;
     background: blue;
-    border-color: blue;
+    background-color: blue;
 }
 
 .default, .darkmode, .contrast {
@@ -104,30 +127,14 @@ dl {
     margin-top: 6px;
 }
 
-header, footer, title, .containe, .footer{
-    color: white;
-}
-
-    header a {
-        color: white;
-    }
-
 .dropdown-item {
-    color: white !important;
-}
-
-a:hover {
-    color: white;
-}
-
-button {
-color: white;
+    color: #a5b1c4 !important;
 }
 
 .dropdownColor {
-    background-color: rgba(9,9,121,1);
+    background-color: #151e2e;
     border-width: 2px;
-    border-color: white;
+    border-color: #a5b1c4;
 }
 
 .container {

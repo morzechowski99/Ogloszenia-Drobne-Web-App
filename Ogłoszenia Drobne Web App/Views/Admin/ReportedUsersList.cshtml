@@ -1,14 +1,13 @@
 ﻿@model IEnumerable<Ogłoszenia_Drobne_Web_App.Models.Offer>
 
 @{
-    ViewData["Title"] = "Moje ogłoszenia";
+    ViewData["Title"] = "Zgłoszone oferty";
 }
-<div class="container">
-    <p>
-        <a asp-action="Create">Dodaj ogłoszenie</a>
-    </p>
 
-    <table class="table">
+<div class="container">
+    <h1>Zgłoszone oferty</h1>
+
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>
@@ -16,9 +15,6 @@
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Description)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CreationDate)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.ExpirationDate)
@@ -46,9 +42,6 @@
                         @Html.DisplayFor(modelItem => item.Description)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.CreationDate)
-                    </td>
-                    <td>
                         @Html.DisplayFor(modelItem => item.ExpirationDate)
                     </td>
                     <td>
@@ -58,15 +51,13 @@
                         @Html.DisplayFor(modelItem => item.Wage)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Category.Id)
+                        @Html.DisplayFor(modelItem => item.Category.CategoryName)
                     </td>
                     <td>
-                        <a class="btn buttonDetails" asp-action="Edit" asp-route-id="@item.Id">Edytuj</a>
-                        <a class="btn buttonDetails" asp-action="Details" asp-route-id="@item.Id">Szczegóły</a>
-                        <a class="btn buttonDetails" asp-action="Delete" asp-route-id="@item.Id">Usuń</a>
+                        @*<a class="btn buttonDetails" asp-action="Details" asp-route-id="@item.Id">Szczegóły</a>*@
                     </td>
                 </tr>
             }
         </tbody>
     </table>
-    </div>
+</div>

@@ -59,8 +59,8 @@ namespace Ogłoszenia_Drobne_Web_App.Areas.Identity.Pages.Account
 
                 await _emailSender.SendEmailAsync(
                     Input.Email,
-                    "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    "Reset hasła",
+                    $"Proszę o zresetowanie hasła klikając w <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>link</a>.");
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }
