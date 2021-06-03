@@ -16,6 +16,8 @@ namespace Ogłoszenia_Drobne_Web_App.Mapper
                 .ForMember(c => c.CategoryName,map => map.MapFrom(v => v.CategoryName))
                 .ForMember(c => c.ParentCategoryId,map => map.MapFrom(v => v.ParentCategoryId))
                 .ForAllOtherMembers(map => map.Ignore());
+
+            CreateMap<CreateOfferViewModel, Offer>();
         }
     }
 }

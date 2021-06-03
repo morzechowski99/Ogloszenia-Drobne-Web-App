@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -9,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Ogłoszenia_Drobne_Web_App.Data;
 using Ogłoszenia_Drobne_Web_App.Models;
 using Ogłoszenia_Drobne_Web_App.Pagination;
+using Ogłoszenia_Drobne_Web_App.ViewModels;
 
 namespace Ogłoszenia_Drobne_Web_App.Controllers
 {
@@ -16,15 +18,17 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
     public class OffersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
-        public OffersController(ApplicationDbContext context)
+        public OffersController(ApplicationDbContext context,IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: Offers
         [AllowAnonymous]
-        public async Task<IActionResult> Index(string? searchString, int? pageNumber)
+        public async Task<IActionResult> Index(string searchString, int? pageNumber)
         {
             ViewData["CurrentFilter"] = searchString;
             var offers = from s in _context.Offers
@@ -77,26 +81,38 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,UserId,CategoryId,Title,Description,Wage")] Offer offer)
+        public async Task<IActionResult> Create(CreateOfferViewModel offerViewModel)
         {
             if (ModelState.IsValid)
             {
                 string email = User.Identity.Name;
                 AppUser user = _context.Users.FirstOrDefault(u => u.Email == email);
-                if (user == null) return null;
+                if (user == null) return NotFound();
+                var offer = _mapper.Map<Offer>(offerViewModel);
                 offer.UserId = user.Id;
                 offer.ExpirationDate = DateTime.Now.AddDays(14);
                 offer.LastModificationDate = DateTime.Now;
                 offer.CreationDate = DateTime.Now;
-                offer.ViewCounter = 0; // Marcin
+                offer.ViewCounter = 0; 
+
+                foreach(var attribute in offerViewModel.Attributes)
+                {
+                    var offerAttribute = new OfferAtribute()
+                    {
+                        Value = attribute.Value,
+                        AtributeId = attribute.Id,
+                        Offer = offer
+                    };
+                    _context.Add(offerAttribute);
+                }
 
                 _context.Add(offer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(MyOffers));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", offer.CategoryId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", offer.UserId);
-            return View(offer);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "CategoryName", offerViewModel.CategoryId);
+          
+            return View(offerViewModel);
         }
 
         // GET: Offers/Edit/5

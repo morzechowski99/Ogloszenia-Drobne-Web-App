@@ -4,13 +4,13 @@
 
 @foreach (var item in Model)
 {
-    <input type="hidden" name="Attributes[@i].Id" />
+    <input type="hidden" name="Attributes[@i].Id" value="@item.Id" />
     @switch (item)
     {
         case BoolAtribute value:
             <div class="form-check">
 
-                <input type="checkbox" name="Attributes[@i].Value" class="form-check-input" id="@i" />
+                <input type="checkbox" name="Attributes[@i].Value" value="true" class="form-check-input" id="@i" />
                 <label class="form-check-label" for="@i">
                     @item.Name
                 </label>
@@ -40,5 +40,6 @@
                 <input type="text" name="Attributes[@i].Value" class="form-control " />
             </div>
             break;
-    }
+    }      
+    { i++; }
 }
