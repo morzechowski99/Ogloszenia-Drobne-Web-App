@@ -1,4 +1,4 @@
-﻿@model Ogłoszenia_Drobne_Web_App.Models.Offer
+﻿@model Ogłoszenia_Drobne_Web_App.ViewModels.EditOfferViewModel
 
 @{
     ViewData["Title"] = "Edytuj Oferte";
@@ -12,9 +12,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
-                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
+                Kategoria: @Model.Category.CategoryName
             </div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
@@ -23,7 +21,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+                <textarea asp-for="Description" class="form-control h100"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -31,9 +29,61 @@
                 <input asp-for="Wage" class="form-control" />
                 <span asp-validation-for="Wage" class="text-danger"></span>
             </div>
+            @{ int i = 0;}
+            @foreach (var item in Model.OfferAtributes)
+            {
+                <input type="hidden" name="OfferAtributes[@i].OfferId" value="@item.OfferId" />
+                <input type="hidden" name="OfferAtributes[@i].AtributeId" value="@item.AtributeId" />
+             
+                @switch (item.Atribute)
+                {
+                    case BoolAtribute value:
+                <div class="form-check">
+                 @if (item.Value != null)
+                 {
+                    <input type="checkbox" name="OfferAtributes[@i].Value" checked value="true" class="form-check-input" id="@i" />
+
+                 }
+                else
+                {
+                    <input type="checkbox" name="OfferAtributes[@i].Value"  value="true" class="form-check-input" id="@i" />
+                }
+                <label class="form-check-label" for="@i">
+                    @item.Atribute.Name
+                </label>
+             </div>
+                        break;
+                    case DateTimeAtribute value:
+                        <div class="form-group">
+                            <label class="control-label">@item.Atribute.Name</label>
+                            <input type="date" name="OfferAtributes[@i].Value" value="@item.Value" class="form-control " />
+                        </div>
+                        break;
+                    case DoubleAtribute value:
+                        <div class="form-group">
+                            <label class="control-label">@item.Atribute.Name</label>
+                            <input type="text" name="OfferAtributes[@i].Value" value="@item.Value" class="form-control " />
+                        </div>
+                        break;
+                    case NumberAtribute value:
+                        <div class="form-group">
+                            <label class="control-label">@item.Atribute.Name</label>
+                            <input type="number" name="OfferAtributes[@i].Value" value="@item.Value" class="form-control " />
+                        </div>
+                        break;
+                    case TextAtribute value:
+                        <div class="form-group">
+                            <label class="control-label">@item.Atribute.Name</label>
+                            <input type="text" name="OfferAtributes[@i].Value" value="@item.Value" class="form-control " />
+                        </div>
+                        break;
+                }
+                { i++; }
+            }
             <div class="form-group">
                 <input type="submit" value="Zapisz" class="btn btn-primary buttonLogin" />
             </div>
+
             <a class="btn buttonDetails" asp-action="MyOffers">Powrót</a>
         </form>
     </div>

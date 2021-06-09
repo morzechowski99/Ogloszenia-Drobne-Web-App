@@ -102,6 +102,14 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
 
                         return View(offerViewModel);
                     }
+
+                    if (offerViewModel.Title.ToLower().Contains(blackword.Word.ToLower())) {
+
+                        ModelState.AddModelError("title", "Tytuł zawiera zakazane słowa");
+                        ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "CategoryName", offerViewModel.CategoryId);
+
+                        return View(offerViewModel);
+                    }
                 }
                 
                 string email = User.Identity.Name;
@@ -142,18 +150,26 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
                 return NotFound();
             }
 
-            var offer = await _context.Offers.FindAsync(id);
+            Offer offer = await _context.Offers
+                .Include(o => o.Category)
+                .Include(o => o.OfferAtributes)
+                .ThenInclude(o => o.Atribute)
+                .Where(o => o.Id == id).FirstOrDefaultAsync();
+            
             if (offer == null)
             {
                 return NotFound();
             }
+
             string email = User.Identity.Name;
             AppUser user = _context.Users.FirstOrDefault(u => u.Email == email);
             if (user == null) return Unauthorized();
             if (offer.UserId != user.Id) return Unauthorized();
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", offer.CategoryId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", offer.UserId);
-            return View(offer);
+
+            var offerDto = _mapper.Map<EditOfferViewModel>(offer);
+           
+            
+            return View(offerDto);
         }
 
         // POST: Offers/Edit/5
@@ -161,46 +177,58 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CategoryId,Title,Description,Wage")] Offer offer)
+        public async Task<IActionResult> Edit( EditOfferViewModel offerDto)
         {
-            string email = User.Identity.Name;
-            AppUser user = _context.Users.FirstOrDefault(u => u.Email == email);
-            if (user == null) return NotFound();
 
-            if (id != offer.Id)
-            {
-                return NotFound();
-            }
-
+            if (offerDto == null) return NotFound();
+            Offer offerDb = null;
             if (ModelState.IsValid)
             {
-                try
+                 offerDb = await _context.Offers.Include(o => o.Category).AsNoTracking().FirstOrDefaultAsync(o => o.Id == offerDto.Id);
+                var blackWords = await _context.BlackWords.ToListAsync();
+                foreach (var blackword in blackWords)
                 {
-                    if (offer.UserId == user.Id)
+                    if (offerDto.Description.ToLower().Contains(blackword.Word.ToLower()))
                     {
-                        offer.LastModificationDate = DateTime.Now;
-                        _context.Update(offer);
-                        await _context.SaveChangesAsync();
+                        ModelState.AddModelError("description", "Opis zawiera zakazane słowa");
+                        offerDto.Category = offerDb.Category;
+                        foreach(var item in offerDto.OfferAtributes)
+                        {
+                            item.Atribute = await _context.Atributes.FirstOrDefaultAsync(a => a.Id == item.AtributeId);
+                        }
+                        return View(offerDto);
                     }
-                    else
-                        return NotFound();
+
+                    if (offerDto.Title.ToLower().Contains(blackword.Word.ToLower()))
+                    {
+
+                        ModelState.AddModelError("title", "Tytuł zawiera zakazane słowa");
+                        offerDto.Category = offerDb.Category;
+                        foreach (var item in offerDto.OfferAtributes)
+                        {
+                            item.Atribute = await _context.Atributes.FirstOrDefaultAsync(a => a.Id == item.AtributeId);
+                        }
+                        return View(offerDto);
+                    }
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!OfferExists(offer.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                
+                string email = User.Identity.Name;
+                AppUser user = _context.Users.FirstOrDefault(u => u.Email == email);
+                if (user == null || offerDb.UserId != user.Id) return Unauthorized();
+
+                offerDb = _mapper.Map(offerDto, offerDb);
+
+                _context.Update(offerDb);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(MyOffers));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", offer.CategoryId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", offer.UserId);
-            return View(offer);
+            offerDto.Category = offerDb.Category;
+            foreach (var item in offerDto.OfferAtributes)
+            {
+                item.Atribute = await _context.Atributes.FirstOrDefaultAsync(a => a.Id == item.AtributeId);
+            }
+            return View(offerDto);
         }
 
         // GET: Offers/Delete/5
