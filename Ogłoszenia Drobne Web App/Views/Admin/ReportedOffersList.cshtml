@@ -26,7 +26,7 @@
                     @Html.DisplayNameFor(model => model.Wage)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Category)
+                   
                 </th>
                 <th></th>
             </tr>
@@ -54,7 +54,8 @@
                         @Html.DisplayFor(modelItem => item.Category.CategoryName)
                     </td>
                     <td>
-                        @*<a class="btn buttonDetails" asp-action="Details" asp-route-id="@item.Id">Szczegóły</a>*@
+                        <a class="btn buttonDetails" asp-action="Details" asp-controller="Offers" asp-route-id="@item.Id">Szczegóły</a>
+                        <a class="btn buttonDetails" asp-action="DeleteReport"  asp-route-id="@item.Id">Odrzuć zgłoszenie</a>
                     </td>
                 </tr>
             }

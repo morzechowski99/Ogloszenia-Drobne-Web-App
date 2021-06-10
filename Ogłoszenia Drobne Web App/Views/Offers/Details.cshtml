@@ -80,6 +80,9 @@
         <a class="btn buttonDetails" asp-action="Edit" asp-route-id="@Model.Id">Edytuj</a>
         <a class="btn buttonDetails" asp-action="Report" asp-route-id="@Model.Id">Zgłoś</a>
         <a class="btn buttonDetails" asp-action="MyOffers">Powrót</a>
+        @if (Context.User.IsInRole("Admin")) {
+        <a class="btn buttonDetails" asp-controller="Admin" asp-action="DeleteOffer" asp-route-id="@Model.Id">Usuń</a>
+        }
     </div>
 </div>
 
