@@ -9,85 +9,122 @@
     <p>
         <a class="btn buttonDetails" asp-action="Create">Dodaj ogłoszenie</a>
     </p>
-
-    <form asp-action="Index" method="get">
-        <div class="form-actions no-color">
-            <p>
-                Wyszukaj: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
-                <input type="submit" value="Szukaj" class="btn btn-default buttonDetails" /> |
-                <a class="btn buttonDetails" asp-action="Index">Powrót</a>
-            </p>
-        </div>
-    </form>
-
     
+    <form asp-action="Index" method="get" class="row">
+        <div class="form-actions no-color col-12">
+            <div class="form-group form-inline">
+                Wyszukaj: <input type="text" class="form-control m-2" name="SearchString" value="@ViewData["CurrentFilter"]" />
+                <input type="text" class="form-control m-2" placeholder="lub" name="OrString" value="@ViewData["OR"]" />
+                <input type="text" class="form-control m-2" placeholder="z wykluczeniem" name="NotString" value="@ViewData["NOT"]" />
+                <input type="submit" value="Szukaj" class=" m-2 btn btn-default buttonDetails" /> |
+                <a class="btn buttonDetails m-2" asp-action="Index">Wyczyść Filtry</a>
+            </div>
+        </div>
+        <div class="col-3 d-flex flex-column align-items-center mb-2">
+            <div class="borderLogin p-4 d-flex flex-column align-items-center">
+                <h6>Filtry</h6>
+                <div class="form-group">
+                    <label class="control-label">Kategoria</label>
+                    @if (ViewBag.CategoryTree != null)
+                    {
+                        <p>@ViewBag.CategoryTree</p>
+                    }
+                    <select name="categoryId" class="form-control" asp-items="ViewBag.CategoryId">
+                        @if (ViewBag.SelectedCategory != null)
+                        {
+                            <option value="@ViewBag.SelectedCategory">Wybierz kategorię</option>
+                        }
+                        else
+                        {
+                            <option value="null">Wybierz kategorię</option>
+                        }
+
+                    </select>
+
+                </div>
+
+                <input type="submit" value="Szukaj" class=" m-2 btn btn-default buttonDetails" />
+            </div>
+        </div>
+
+
+        <div class="col-9 pl-5 pt-1">
             @foreach (var item in Model)
             {
-<div class="row mb-2 borderLogin">
-    <div class="col-sm-12 col-md-9 p-2">
-        <h3>@item.Title</h3> 
-    </div>
-    <div class="col-sm-12 col-md-3 p-2">
-        @if (item.Wage == null)
-        {
-            <span>Stawka nieokreślona</span>
-        }
-        else
-        {
-    <h4>@item.Wage zł</h4>
-        }
-    </div>
-    <div class="col-sm-12 col-md-9 p-2">
-        @if (item.Description?.Length > 300)
-        {
-            <span>@item.Description.Substring(0, 300)...</span>
-        }
-        else
-        {
-            <span>@item.Description</span>
-        }
-    </div>
-    <div class="col-sm-12 col-md-3 p-2">
-        <a class="btn buttonDetails" asp-action="Details" asp-route-id="@item.Id">Szczegóły</a>
-    </div>
-</div>
-
-   
-  
-    }
+                <div class="row mb-2 borderLogin">
+                    <div class="col-sm-12 col-md-9 p-2">
+                        <h3>@item.Title</h3>
+                    </div>
+                    <div class="col-sm-12 col-md-3 p-2">
+                        @if (item.Wage == null)
+                        {
+                            <span>Stawka nieokreślona</span>
+                        }
+                        else
+                        {
+                            <h4>@item.Wage zł</h4>
+                        }
+                    </div>
+                    <div class="col-sm-12 col-md-9 p-2">
+                        @if (item.Description?.Length > 300)
+                        {
+                            <span>@item.Description.Substring(0, 300)...</span>
+                        }
+                        else
+                        {
+                            <span>@item.Description</span>
+                        }
+                    </div>
+                    <div class="col-sm-12 col-md-3 p-2">
+                        <a class="btn buttonDetails" asp-action="Details" asp-route-id="@item.Id">Szczegóły</a>
+                    </div>
+                </div>
 
 
-    @{
-        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
-    }
 
-    <a asp-action="Index"
-       asp-route-sortOrder="@ViewData["CurrentSort"]"
-       asp-route-pageNumber="@(Model.PageIndex - 1)"
-       asp-route-currentFilter="@ViewData["CurrentFilter"]"
-       class="btn btn-default buttonDetails @prevDisabled">
-        Poprzednia
-    </a>
-    <a asp-action="Index"
-       asp-route-sortOrder="@ViewData["CurrentSort"]"
-       asp-route-pageNumber="@(Model.PageIndex + 1)"
-       asp-route-currentFilter="@ViewData["CurrentFilter"]"
-       class="btn btn-default buttonDetails @nextDisabled">
-        Nastepna
-    </a>
-
-    <div class="btn-group" role="group">
-        <button id="btnGroupDrop1" type="button" class="btn buttonDetails dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Ilość ofert
-        </button>
-        <div class="dropdown-menu dropdownColor" aria-labelledby="btnPageSelect">
-            <a class="dropdown-item" id="five">5</a>
-            <a class="dropdown-item" id="ten">10</a>
-            <a class="dropdown-item" id="ff">15</a>
+            }
         </div>
+
+
+        @{
+            var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+            var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+        }
+    <div class="form-inline m-2">
+        <a asp-action="Index"
+           asp-route-sortOrder="@ViewData["CurrentSort"]"
+           asp-route-categoryId="@ViewBag.SelectedCategory"
+           asp-route-pageNumber="@(Model.PageIndex - 1)"
+           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+           class="btn btn-default m-2 buttonDetails @prevDisabled">
+            Poprzednia
+        </a>
+
+        <a asp-action="Index"
+           asp-route-sortOrder="@ViewData["CurrentSort"]"
+           asp-route-categoryId="@ViewBag.SelectedCategory"
+           asp-route-pageNumber="@(Model.PageIndex + 1)"
+           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+           class="btn m-2 btn-default buttonDetails @nextDisabled">
+            Nastepna
+        </a>
+        <input class="form-control" type="number" name="pageNumber" min="1" max="@Model.TotalPages" />
+        <button class="btn m-2 btn-default buttonDetails" type="submit">Przejdź</button>
+        <div class="btn-group m-2" role="group">
+            <button id="btnGroupDrop1" type="button" class="btn buttonDetails dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Ilość ofert
+            </button>
+            <div class="dropdown-menu dropdownColor" aria-labelledby="btnPageSelect">
+                <a class="dropdown-item" id="five">5</a>
+                <a class="dropdown-item" id="ten">10</a>
+                <a class="dropdown-item" id="ff">15</a>
+            </div>
+        </div>
+        <p class="pt-3">Jesteś na stronie @Model.PageIndex z @Model.TotalPages</p>
     </div>
-</div>
+    </form>
+    </div>
+
     <script>
         if (getCookie("page") === undefined)
             setCookie("page", 5, 365);

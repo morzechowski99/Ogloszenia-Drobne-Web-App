@@ -17,6 +17,7 @@
     $('#attributeSelect').change(function () {
         
         loadAtributes($(this).val())
+
     })
     
 })

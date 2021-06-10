@@ -28,16 +28,59 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
 
         // GET: Offers
         [AllowAnonymous]
-        public async Task<IActionResult> Index(string searchString, int? pageNumber)
+        public async Task<IActionResult> Index(string searchString, string OrString, string NotString, int? pageNumber, int? categoryId)
         {
             ViewData["CurrentFilter"] = searchString;
-            var offers = from s in _context.Offers
-                         select s;
-            if (!String.IsNullOrEmpty(searchString))
+            ViewData["OR"] = OrString;
+            ViewData["NOT"] = NotString;
+            var offers = _context.Offers.Include(o => o.Category).Where(o => o.ExpirationDate > DateTime.Now);
+
+            if (!String.IsNullOrEmpty(searchString) && !String.IsNullOrEmpty(OrString))
             {
                 searchString = searchString.ToLower();
-                offers = _context.Offers.Where(s => s.Title.ToLower().Contains(searchString) ||
-                s.Description.ToLower().Contains(searchString) || searchString.Contains(s.Category.CategoryName.ToLower()));
+                OrString = OrString.ToLower();
+                if (String.IsNullOrEmpty(NotString))
+                {
+                    offers = offers.Where(s => s.Title.ToLower().Contains(searchString) ||
+                    s.Description.ToLower().Contains(searchString) || s.Title.ToLower().Contains(OrString) ||
+                    s.Description.ToLower().Contains(OrString));
+                }
+                else
+                {
+                    NotString = NotString.ToLower();
+                    offers = offers.Where(s => (s.Title.ToLower().Contains(searchString) ||
+                    s.Description.ToLower().Contains(searchString) || s.Title.ToLower().Contains(OrString) ||
+                    s.Description.ToLower().Contains(OrString)) && (!s.Title.ToLower().Contains(NotString) &&
+                    !s.Description.ToLower().Contains(NotString)));
+                }
+            }
+            else if (!String.IsNullOrEmpty(searchString))
+            {
+                searchString = searchString.ToLower();
+                if (String.IsNullOrEmpty(NotString))
+                {
+                    offers = offers.Include(o => o.Category).Where(s => s.Title.ToLower().Contains(searchString) ||
+                s.Description.ToLower().Contains(searchString));
+                }
+                else
+                {
+                    NotString = NotString.ToLower();
+                    offers = offers.Include(o => o.Category).Where(s => (s.Title.ToLower().Contains(searchString) ||
+                    s.Description.ToLower().Contains(searchString)) && (!s.Title.ToLower().Contains(NotString) &&
+                    !s.Description.ToLower().Contains(NotString)));
+                }
+            }
+            else if (!String.IsNullOrEmpty(NotString))
+            {
+                NotString = NotString.ToLower();
+                offers = offers.Include(o => o.Category).Where(s => !s.Title.ToLower().Contains(NotString) ||
+                !s.Description.ToLower().Contains(NotString));
+            }
+            if(categoryId != null)
+            {
+                var categories = await GetChildCategories(categoryId.Value);
+                offers = offers.Where(o => categories.Contains(o.Category));
+                ViewBag.CategoryTree = await GetCategoryTree(categoryId.Value);
             }
             var page = HttpContext.Request.Cookies["page"];
             int pageSize = 5;
@@ -45,9 +88,46 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
             {
                 pageSize = Int32.Parse(page);
             }
-
+            
+            ViewBag.SelectedCategory = categoryId;
+            ViewData["CategoryId"] = new SelectList(_context.Categories.Where(c => c.ParentCategoryId == categoryId), "Id", "CategoryName");
             return View(await PaginatedList<Offer>.CreateAsync(offers.Include(o => o.Category).Include(o => o.User).AsNoTracking(), pageNumber ?? 1, pageSize));
         }
+
+        private async Task<string> GetCategoryTree(int categoryId)
+        {
+            var category = await _context.Categories.Include(o => o.ParentCategory).FirstOrDefaultAsync(c => c.Id == categoryId);
+            string tree = category.CategoryName;
+            var parentCategory = category.ParentCategory;
+            if (parentCategory == null) return tree;
+            
+
+            while(parentCategory != null)
+            {
+                tree = parentCategory.CategoryName + "/ " + tree;
+                parentCategory = await _context.Categories.FirstOrDefaultAsync(c => c.Id == parentCategory.ParentCategoryId);
+            }
+            return tree;
+
+        }
+
+        private async Task<List<Category>> GetChildCategories(int id)
+        {
+            List<Category> categories = new List<Category>();
+            var category = await _context.Categories.Include(o => o.ChildCategories).FirstOrDefaultAsync(o => o.Id == id);
+            if(category.ChildCategories.Count != 0)
+            {
+                foreach(var item in category.ChildCategories)
+                {
+                    categories = categories.Concat(await GetChildCategories(item.Id)).ToList();
+                }
+                
+            }
+            categories.Add(category);
+
+            return categories;
+        }
+
         [AllowAnonymous]
         // GET: Offers/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -263,9 +343,16 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
             AppUser user = _context.Users.FirstOrDefault(u => u.Email == email);
             if (user == null) return NotFound();
 
-            var offer = await _context.Offers.FindAsync(id);
+            var offer = await _context.Offers.Include(o => o.OfferAtributes).FirstOrDefaultAsync(o => o.Id == id);
             if (offer.UserId == user.Id)
             {
+                
+
+                foreach(var item in offer.OfferAtributes)
+                {
+                    _context.Remove(item);
+                }
+
                 _context.Offers.Remove(offer);
                 await _context.SaveChangesAsync();
             }

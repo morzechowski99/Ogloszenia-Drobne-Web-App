@@ -107,12 +107,15 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
             {
                 var category = _mapper.Map<Category>(categoryDto);
                 _context.Add(category);
-                foreach (var atributeView in categoryDto.Attributes)
+                if (categoryDto.Attributes != null)
                 {
-                    Atribute atribute = GetAttributeFromType(atributeView.Type);
-                    atribute.Category = category;
-                    atribute.Name = atributeView.Name;
-                    _context.Add(atribute);
+                    foreach (var atributeView in categoryDto.Attributes)
+                    {
+                        Atribute atribute = GetAttributeFromType(atributeView.Type);
+                        atribute.Category = category;
+                        atribute.Name = atributeView.Name;
+                        _context.Add(atribute);
+                    }
                 }
                 
                 await _context.SaveChangesAsync();
