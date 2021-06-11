@@ -175,7 +175,7 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
                 var blackWords = await _context.BlackWords.ToListAsync();
                 foreach (var blackword in blackWords)
                 {
-                    if (offerViewModel.Description.ToLower().Contains(blackword.Word.ToLower()))
+                    if (offerViewModel.Description != null && offerViewModel.Description.ToLower().Contains(blackword.Word.ToLower()))
                     {
                         ModelState.AddModelError("description", "Opis zawiera zakazane słowa");
                         ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "CategoryName", offerViewModel.CategoryId);
@@ -183,7 +183,7 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
                         return View(offerViewModel);
                     }
 
-                    if (offerViewModel.Title.ToLower().Contains(blackword.Word.ToLower())) {
+                    if (offerViewModel.Title != null && offerViewModel.Title.ToLower().Contains(blackword.Word.ToLower())) {
 
                         ModelState.AddModelError("title", "Tytuł zawiera zakazane słowa");
                         ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "CategoryName", offerViewModel.CategoryId);

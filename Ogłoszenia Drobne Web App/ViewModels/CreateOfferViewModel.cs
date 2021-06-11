@@ -22,6 +22,7 @@ namespace Ogłoszenia_Drobne_Web_App.ViewModels
 
         [MaxLength(1500, ErrorMessage = "Opis może mieć maksymalnie 1500 znaków")]
         [Display(Name = "Opis")]
+        [Required(ErrorMessage = "Opis jest pusty")]
         public string Description { get; set; }
 
         [Display(Name = "Stawka")]
