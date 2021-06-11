@@ -30,7 +30,6 @@ body {
     color: white;
 }
 
-
 .adminAlert {
     border-width: 4px;
     border-style: solid;
@@ -104,7 +103,7 @@ dl {
     margin-top: 6px;
 }
 
-header, footer, title, .containe, .footer{
+header, footer, title, .containe, .footer {
     color: white;
 }
 
@@ -121,7 +120,7 @@ a:hover {
 }
 
 button {
-color: white;
+    color: white;
 }
 
 .dropdownColor {
@@ -133,4 +132,10 @@ color: white;
 .container {
     padding-left: 0px !important;
     padding-right: 0px !important;
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1300px;
+    }
 }
