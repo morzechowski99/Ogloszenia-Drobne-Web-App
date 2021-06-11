@@ -56,17 +56,14 @@
                             <span>Panel administracyjny</span>
                         </a>
                         <div id="text" class="dropdown-menu dropdown-menu-right dropdownColor translate" aria-labelledby="navbarDropdown">
-                            @*<a class="dropdown-item nav-link text-white" asp-area="" asp-controller="Category" asp-action="Index">Lista kategorii</a>
-                                <a class="dropdown-item nav-link text-white" asp-area="" asp-controller="Category" asp-action="Create">Dodaj kategorię</a>*@
-                            <a class="dropdown-item nav-link" asp-area="" asp-controller="Admin" asp-action="ReportedUsersList">Lista zgłoszeń</a>
+                           
+                            <a class="dropdown-item nav-link" asp-area="" asp-controller="Admin" asp-action="ReportedOffersList">Lista zgłoszeń</a>
                             <a class="dropdown-item nav-link" asp-area="" asp-controller="BlackWords" asp-action="Index">Słowa zakazane</a>
                             <a class="dropdown-item nav-link" asp-area="" asp-controller="Categories" asp-action="Index">Kategorie</a>
                             <a class="dropdown-item nav-link" asp-area="" asp-controller="Admin" asp-action="UserList">Lista użytkowników</a>
                             <a class="dropdown-item nav-link" asp-area="" asp-controller="Admin" asp-action="AddAdminAlert">Alert</a>
-                            @*<a class="dropdown-item nav-link text-white" asp-area="" asp-controller="Offers" asp-action="ReportedOffers">Zgłoszone oferty</a>
-                                <a class="dropdown-item nav-link text-white" asp-area="" asp-controller="Admin" asp-action="ReportedUsers">Zgłoszeni użytkownicy</a>
-                                <a class="dropdown-item nav-link text-white" asp-area="" asp-controller="Admin" asp-action="BlockedUsers">Zablokowani użytkownicy</a>
-                                <a class="dropdown-item nav-link text-white" asp-area="" asp-controller="Admin" asp-action="ReportedMessages">Zgłoszone wiadomości</a>*@
+                            <a class="dropdown-item nav-link" asp-area="" asp-controller="Admin" asp-action="RemoveAlerts">Usuń Alert</a>
+                            
                         </div>
                     </li>
 

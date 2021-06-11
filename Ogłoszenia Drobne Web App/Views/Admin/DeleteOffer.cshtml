@@ -1,0 +1,7 @@
+﻿@model Ogłoszenia_Drobne_Web_App.Models.Offer
+
+<div class="container">
+    <h1>Czy na pewno chcesz usunąć te ofertę?</h1>
+    <a class="btn buttonDetails m-2" asp-action="ReportedOffersList">Powrót</a>
+    <a class="btn btn-danger m-2" asp-action="DeleteOfferConfirm" asp-route-id="@Model.Id">Usuń</a>
+</div>

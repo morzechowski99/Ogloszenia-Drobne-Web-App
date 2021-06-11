@@ -41,5 +41,7 @@ namespace Ogłoszenia_Drobne_Web_App.Data
         public virtual DbSet<DoubleAtribute> DoubleAtributes { get; set; }
         public virtual DbSet<NumberAtribute> NumberAtributes { get; set; }
         public virtual DbSet<TextAtribute> TextAtributes { get; set; }
+        public virtual DbSet<BoolAtribute> BoolAtributes { get; set; }
+
     }
 }

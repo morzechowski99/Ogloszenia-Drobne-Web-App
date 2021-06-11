@@ -79,10 +79,63 @@ namespace Ogłoszenia_Drobne_Web_App.Controllers
             return RedirectToAction("UserList", "Admin");
         }
 
-        public async Task<IActionResult> ReportedUsersList()
+        public async Task<IActionResult> ReportedOffersList()
         {
             var reportedUsers = await _context.Offers.Where(o => o.reported == true).ToListAsync();
             return View(reportedUsers);
+        }
+
+        public async Task<IActionResult> DeleteOffer(int? id)
+        {
+            if (id == null) return BadRequest();
+
+            var offer = await _context.Offers.FirstOrDefaultAsync(o => o.Id == id);
+
+            if (offer == null) return NotFound();
+
+            return View(offer);
+        }
+
+        public async Task<IActionResult> DeleteOfferConfirm(int? id)
+        {
+            if (id == null) return BadRequest();
+
+            var offer = await _context.Offers.Include(o => o.OfferAtributes).FirstOrDefaultAsync(o => o.Id == id);
+
+            if (offer == null) return NotFound();
+
+            foreach(var item in offer.OfferAtributes)
+            {
+                _context.Remove(item);
+            }
+            _context.Remove(offer);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(ReportedOffersList));
+        }
+
+        public async Task<IActionResult> DeleteReport(int? id)
+        {
+            if (id == null) return BadRequest();
+
+            var offer = await _context.Offers.FirstOrDefaultAsync(o => o.Id == id);
+
+            if (offer == null) return NotFound();
+
+            offer.reported = false;
+
+            _context.Update(offer);
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(ReportedOffersList));
+        }
+
+        public async Task<IActionResult> RemoveAlerts()
+        {
+            _context.Alerts.RemoveRange(_context.Alerts);
+            await  _context.SaveChangesAsync();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

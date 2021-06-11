@@ -4,73 +4,85 @@
     ViewData["Title"] = "Szczegóły oferty";
 }
 
-<div class="d-flex align-items-center justify-content-center flex-column">
+<div class="container">
     <div class="col-12">
-        <h1 class="text-center mt-lg-5">@ViewData["Title"]</h1>
+        <h1 class="text-center mt-5">@Model.Title</h1>
         <hr />
     </div>
-    <div>
-        <dl class="row">
-            <dt class="col-sm-6 text-right">
-                @Html.DisplayNameFor(model => model.Title)
-            </dt>
-            <dd class="col-sm-6 text-left">
-                @Html.DisplayFor(model => model.Title)
-            </dd>
-            <dt class="col-sm-6 text-right">
-                @Html.DisplayNameFor(model => model.Description)
-            </dt>
-            <dd class="col-sm-6 text-left">
-                @Html.DisplayFor(model => model.Description)
-            </dd>
-            <dt class="col-sm-6 text-right">
-                @Html.DisplayNameFor(model => model.CreationDate)
-            </dt>
-            <dd class="col-sm-6 text-left">
-                @Html.DisplayFor(model => model.CreationDate)
-            </dd>
-            <dt class="col-sm-6 text-right">
-                @Html.DisplayNameFor(model => model.LastModificationDate)
-            </dt>
-            <dd class="col-sm-6 text-left">
-                @Html.DisplayFor(model => model.LastModificationDate)
-            </dd>
-            <dt class="col-sm-6 text-right">
-                @Html.DisplayNameFor(model => model.ExpirationDate)
-            </dt>
-            <dd class="col-sm-6 text-left">
-                @Html.DisplayFor(model => model.ExpirationDate)
-            </dd>
-            <dt class="col-sm-6 text-right">
-                @Html.DisplayNameFor(model => model.ViewCounter)
-            </dt>
-            <dd class="col-sm-6 text-left">
-                @Html.DisplayFor(model => model.ViewCounter)
-            </dd>
-            <dt class="col-sm-6 text-right">
-                @Html.DisplayNameFor(model => model.Wage)
-            </dt>
-            <dd class="col-sm-6 text-left">
-                @Html.DisplayFor(model => model.Wage)
-            </dd>
-            <dt class="col-sm-6 text-right">
-                @Html.DisplayNameFor(model => model.Category)
-            </dt>
-            <dd class="col-sm-6 text-left">
-                @Html.DisplayFor(model => model.Category.Id)
-            </dd>
-            <dt class="col-sm-6 text-right">
-                @Html.DisplayNameFor(model => model.User)
-            </dt>
-            <dd class="col-sm-6 text-left">
-                @Html.DisplayFor(model => model.User.Id)
-            </dd>
-        </dl>
+    <div class="row">
+        <div class="col-sm-12 col-md-7">
+            <h4>@Html.DisplayNameFor(model => model.Description)</h4>
+            @Html.DisplayFor(model => model.Description)
+        </div>
+        <div class="col-sm-12 col-md-5">
+            <dl class="row">
+                <dt class="col-sm-6 text-right">
+                    @Html.DisplayNameFor(model => model.Category)
+                </dt>
+                <dd class="col-sm-6 text-left">
+                    @Html.DisplayFor(model => model.Category.CategoryName)
+                </dd>
+                <dt class="col-6 text-right">
+                    @Html.DisplayNameFor(model => model.Wage)
+                </dt>
+                <dd class="col-6 text-left">
+                    @Html.DisplayFor(model => model.Wage)
+                </dd>
+                <dt class="col-sm-6 text-right">
+                    @Html.DisplayNameFor(model => model.User)
+                </dt>
+                <dd class="col-sm-6 text-left">
+                    @Html.DisplayFor(model => model.User.Email)
+                </dd>
+                <dt class="col-sm-6 text-right">
+                    Numer telefonu
+                </dt>
+                <dd class="col-sm-6 text-left">
+                    @Html.DisplayFor(model => model.User.PhoneNumber)
+                </dd>
+                <dt class="col-sm-6 text-right">
+                    @Html.DisplayNameFor(model => model.ExpirationDate)
+                </dt>
+                <dd class="col-sm-6 text-left">
+                    @Html.DisplayFor(model => model.ExpirationDate)
+                </dd>
+            </dl>
+        </div> 
+    </div>
+    <div class="row mt-4 mb-4">
+        <div class="col-12">
+            <h4>@Html.DisplayNameFor(model => model.OfferAtributes)</h4>
+        </div>
+        @foreach(var offerAttribute in Model.OfferAtributes)
+            {
+                <div class="col-sm-12 col-md-4">
+                    <div class="row">
+                        <div class="col-4"><b>@offerAttribute.Atribute.Name</b></div>
+                        @if (offerAttribute.Atribute.GetType() == typeof(BoolAtribute))
+                        {
+                            @if (offerAttribute.Value != null)
+                            {
+                                <div class="col-8">Tak</div>
+                            }
+                            else
+                            {<div class="col-8">Nie</div>}
+                        }
+                        else
+                        {
+                        <div class="col-8">@offerAttribute.Value</div>
+                        }
+                    </div>
+                </div>
+            }
     </div>
     <div>
+        <p>@Html.DisplayNameFor(model => model.ViewCounter): @Html.DisplayFor(model => model.ViewCounter)</p>
         <a class="btn buttonDetails" asp-action="Edit" asp-route-id="@Model.Id">Edytuj</a>
         <a class="btn buttonDetails" asp-action="Report" asp-route-id="@Model.Id">Zgłoś</a>
         <a class="btn buttonDetails" asp-action="MyOffers">Powrót</a>
+        @if (Context.User.IsInRole("Admin")) {
+        <a class="btn buttonDetails" asp-controller="Admin" asp-action="DeleteOffer" asp-route-id="@Model.Id">Usuń</a>
+        }
     </div>
 </div>
 

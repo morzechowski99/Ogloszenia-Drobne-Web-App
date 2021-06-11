@@ -19,6 +19,10 @@
     <Compile Remove="Data\Migrations\20210517180125_Atributs.Designer.cs" />
     <Compile Remove="Data\Migrations\20210524155436_cascade_deletion.cs" />
     <Compile Remove="Data\Migrations\20210524155436_cascade_deletion.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210525174132_boolattribute.cs" />
+    <Compile Remove="Data\Migrations\20210525174132_boolattribute.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210525174209_boolattribute.cs" />
+    <Compile Remove="Data\Migrations\20210525174209_boolattribute.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,6 +32,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="DataAnnotationsExtensions" Version="5.0.1.27" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.9" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.12" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.12" />

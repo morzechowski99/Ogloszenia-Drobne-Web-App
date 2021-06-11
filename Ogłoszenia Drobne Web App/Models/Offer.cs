@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataAnnotationsExtensions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -21,6 +22,7 @@ namespace Ogłoszenia_Drobne_Web_App.Models
         public string UserId { get; set; }
 
         [Display(Name = "Kategoria")]
+        [Min(0,ErrorMessage ="Kategoria jest wymagana")]
         public int CategoryId { get; set; }
 
         [MaxLength(40, ErrorMessage = "Tytuł może mieć maksymalnie 40 znaków")]
@@ -54,11 +56,14 @@ namespace Ogłoszenia_Drobne_Web_App.Models
         //[RegularExpression(@"^([0-9]*)([.,]*)([0-9]\d{0,1})$", ErrorMessage = "Zły format")]
         //[Display(Name = "Stawka")]
         //public string WageValue { get; set; }
+        [Display(Name = "Kategoria")]
         public virtual Category Category { get; set; }
+        [Display(Name ="Użytkownik")]
 
         public virtual AppUser User { get; set; }
 
         //public virtual ICollection<OfferReport> OfferReports { get; set; }
+        [Display(Name = "Atrybuty")]
         public virtual ICollection<OfferAtribute> OfferAtributes { get; set; }
 
         public virtual ICollection<File> Files { get; set; }

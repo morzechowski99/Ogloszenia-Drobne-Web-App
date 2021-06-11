@@ -7,7 +7,7 @@
 <div class="container">
     <h1>Edytuj atrybuty kategorii @ViewBag.CategoryName</h1>
 
-    <form id="addAtributeForm" asp-action="AddAttribute" >
+    <form id="addAtributeForm" asp-action="AddAttribute" asp-route-id="@categoryId">
         <div class="row">
             
             <div class="col-12 col-md-4 form-group">
@@ -30,7 +30,7 @@
         </div>
     </form>
     
-    <form id="editAtributeForm"  asp-action="EditAttribute" style="display:none" asp-route-id="@categoryId">
+    <form id="editAtributeForm"  asp-action="EditAttribute" style="display:none" >
         <div class="row">
             <input type="hidden" name="Id" />
             <div class="col-12 col-md-4 form-group">
